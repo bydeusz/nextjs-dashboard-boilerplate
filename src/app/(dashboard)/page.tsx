@@ -1,5 +1,4 @@
 import { getTranslations } from "next-intl/server";
-import { isLoggedIn } from "@/utils/isLoggedIn";
 import type { Metadata } from "next";
 
 import { Header } from "@/components/ui/layout/Header";
@@ -10,7 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  await isLoggedIn();
   const t = await getTranslations("pages.dashboard");
 
   return (

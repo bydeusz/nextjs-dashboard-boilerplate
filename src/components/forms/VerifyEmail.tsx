@@ -43,7 +43,7 @@ export default function VerifyEmail({ token }: { token: string }) {
     };
 
     verifyEmail();
-  }, [token, router]);
+  }, [token, t]);
 
   if (isVerifying) {
     return (

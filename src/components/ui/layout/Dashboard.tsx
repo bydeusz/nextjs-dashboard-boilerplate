@@ -1,7 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
 
 import { X, Menu, Settings, LifeBuoy } from "lucide-react";
 
@@ -15,13 +14,14 @@ interface DashboardProps {
   children: React.ReactNode;
 }
 
+type DashboardInjectedProps = {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+  toggleSidebar: () => void;
+};
+
 const Dashboard = ({ children }: DashboardProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [pathname]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -31,11 +31,14 @@ const Dashboard = ({ children }: DashboardProps) => {
     <div className="flex h-screen">
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          return React.cloneElement(child, {
+          return React.cloneElement(
+            child as React.ReactElement<Partial<DashboardInjectedProps>>,
+            {
             sidebarOpen,
             setSidebarOpen,
             toggleSidebar,
-          } as any);
+            },
+          );
         }
         return child;
       })}

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Home, Globe, Trophy, Gamepad2 } from "lucide-react";
+import { Home, Globe } from "lucide-react";
 import { NavLink } from "@/components/ui/actions/NavLink";
 import { useTranslations } from "next-intl";
 

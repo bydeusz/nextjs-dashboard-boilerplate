@@ -1,10 +1,10 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useAuth } from "@/providers/AuthProvider";
 
 import {
   Card,
@@ -25,6 +25,7 @@ import {
 
 export default function LoginForm() {
   const router = useRouter();
+  const { login } = useAuth();
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -32,8 +33,8 @@ export default function LoginForm() {
 
   const t = useTranslations("auth.login");
 
-  const getErrorMessage = (error: string) => {
-    switch (error) {
+  const getErrorMessage = (errorCode: string) => {
+    switch (errorCode) {
       case "MissingCredentials":
         return t("errors.missingCredentials");
       case "UserNotFound":
@@ -53,25 +54,12 @@ export default function LoginForm() {
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-        callbackUrl: "/",
-      });
-
-      if (result?.code) {
-        setError(getErrorMessage(result.code));
-        return;
-      }
-
-      if (result?.url) {
-        router.push(result.url);
-        router.refresh();
-      }
-    } catch (err) {
-      setError(getErrorMessage("default"));
-      console.error(err);
+      await login({ email, password });
+      router.push("/");
+      router.refresh();
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "default";
+      setError(getErrorMessage(message));
     } finally {
       setIsLoading(false);
     }

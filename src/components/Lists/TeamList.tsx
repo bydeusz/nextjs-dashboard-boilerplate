@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { User } from "@/types/User";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { AddUser } from "@/components/modals/Add";
 import { SearchInput } from "@/components/ui/inputs/Search";
@@ -23,11 +24,8 @@ import {
   AvatarImage,
 } from "@/components/ui/labels/Avatar";
 
-interface TeamListProps {
-  currentUser: string;
-}
-
-export function TeamList({ currentUser }: TeamListProps) {
+export function TeamList() {
+  const { user } = useAuth();
   const t = useTranslations("navigation.navbar");
   const teamT = useTranslations("tables.team");
   const [searchQuery, setSearchQuery] = useState("");
@@ -42,7 +40,7 @@ export function TeamList({ currentUser }: TeamListProps) {
         if (!response.ok) throw new Error("Failed to fetch users");
         const data = await response.json();
         setUsers(data);
-        const foundUser = data.find((user: User) => user.id === currentUser);
+        const foundUser = data.find((teamUser: User) => teamUser.id === user?.id);
         setCurrentUserData(foundUser || null);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -52,7 +50,7 @@ export function TeamList({ currentUser }: TeamListProps) {
     };
 
     fetchUsers();
-  }, [currentUser]);
+  }, [user?.id]);
 
   // Filter users based on search query
   const filteredUsers = users.filter((user) => {

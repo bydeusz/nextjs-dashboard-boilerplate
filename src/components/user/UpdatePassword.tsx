@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { Loader2 } from "lucide-react";
 
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/messages/Alert";
 
 export function UpdatePassword() {
+  const { logout } = useAuth();
   const t = useTranslations("forms.user-password");
   const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
@@ -58,7 +59,7 @@ export function UpdatePassword() {
         throw new Error(data.error || "Failed to update password");
       }
 
-      await signOut({ redirect: true, callbackUrl: "/login" });
+      await logout();
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : t("errors.default"));
       console.error(error);

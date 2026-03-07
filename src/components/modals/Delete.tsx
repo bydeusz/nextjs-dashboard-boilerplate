@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { User } from "@/types/User";
-import { signOut, useSession } from "next-auth/react";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { Button } from "@/components/ui/actions/Button";
 import { InputField } from "@/components/ui/inputs/Input";
@@ -30,7 +30,7 @@ interface DeleteUserProps {
 
 export function DeleteUser({ user, disabled, buttonText }: DeleteUserProps) {
   const t = useTranslations("modals.delete");
-  const { data: session } = useSession();
+  const { user: currentUser, logout } = useAuth();
   const [inputValue, setInputValue] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,8 +67,8 @@ export function DeleteUser({ user, disabled, buttonText }: DeleteUserProps) {
       setOpen(false);
 
       // Check if the deleted user is the current user
-      if (session?.user?.id === id) {
-        await signOut({ callbackUrl: "/login" });
+      if (currentUser?.id === id) {
+        await logout();
       } else {
         window.location.reload();
       }

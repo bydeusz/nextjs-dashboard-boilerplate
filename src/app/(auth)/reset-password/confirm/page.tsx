@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { auth } from "@/config/auth";
 import PasswordForm from "@/components/forms/PasswordForm";
 
 export const metadata: Metadata = {
@@ -13,13 +12,7 @@ export default async function ResetPasswordConfirmPage({
 }: {
   searchParams: Promise<{ token: string }>;
 }) {
-  const session = await auth();
   const { token } = await searchParams;
-
-  // Redirect to home if already logged in
-  if (session?.user) {
-    redirect("/");
-  }
 
   // Redirect to reset password page if no token
   if (!token) {

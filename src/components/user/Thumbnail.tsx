@@ -1,6 +1,7 @@
-import { prisma } from "@/config/prisma";
-import { auth } from "@/config/auth";
+"use client";
+
 import Link from "next/link";
+import { useAuth } from "@/providers/AuthProvider";
 
 import {
   Avatar,
@@ -8,39 +9,23 @@ import {
   AvatarImage,
 } from "@/components/ui/labels/Avatar";
 
-export async function Thumbnail() {
-  const session = await auth();
+export function Thumbnail() {
+  const { user } = useAuth();
 
-  if (!session?.user?.id) {
-    return null;
-  }
-
-  const data = await prisma.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-    select: {
-      id: true,
-      firstname: true,
-      surname: true,
-      avatar: true,
-    },
-  });
-
-  if (!data) {
+  if (!user?.id) {
     return null;
   }
 
   return (
     <Link href="/settings">
       <Avatar className="size-9 hover:ring-slate-300">
-        {data.avatar ? (
+        {user.avatarUrl ? (
           <AvatarImage
-            src={data.avatar}
-            alt={`avatar picture of ${data.firstname} ${data.surname}`}
+            src={user.avatarUrl}
+            alt={`avatar picture of ${user.name} ${user.surname}`}
           />
         ) : (
-          <AvatarFallback>{data.firstname?.charAt(0)}</AvatarFallback>
+          <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
         )}
       </Avatar>
     </Link>

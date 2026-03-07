@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { User } from "@/types/User";
 
@@ -16,7 +16,23 @@ import { Skeleton } from "@/components/ui/layout/Skeleton";
 
 export function DeleteUser() {
   const t = useTranslations("forms.user-delete");
-  const { data: session, status } = useSession();
+  const { user, isLoading } = useAuth();
+
+  const modalUser: User | null = user
+    ? {
+        id: user.id,
+        email: user.email,
+        firstname: user.name,
+        surname: user.surname,
+        isAdmin: user.isAdmin,
+        role: null,
+        password: null,
+        createdAt: new Date(user.createdAt),
+        updatedAt: new Date(user.updatedAt),
+        emailVerified: null,
+        avatar: user.avatarUrl,
+      }
+    : null;
 
   return (
     <Card>
@@ -25,10 +41,10 @@ export function DeleteUser() {
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        {status === "loading" ? (
+        {isLoading ? (
           <Skeleton className="h-[36px] w-[190px]" />
-        ) : session?.user ? (
-          <Delete user={session.user as User} buttonText={t("deleteButton")} />
+        ) : modalUser ? (
+          <Delete user={modalUser} buttonText={t("deleteButton")} />
         ) : null}
       </CardContent>
     </Card>

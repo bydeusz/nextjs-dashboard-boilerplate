@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/useToast";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { Loader2 } from "lucide-react";
 
@@ -19,7 +19,7 @@ import { TextArea } from "@/components/ui/inputs/TextArea";
 import { Button } from "@/components/ui/actions/Button";
 
 export default function ContactForm() {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,32 +30,15 @@ export default function ContactForm() {
   const t = useTranslations("forms.support");
   const { toast } = useToast();
 
-  // Fetch user data from database when component mounts
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (session?.user?.id) {
-        try {
-          const response = await fetch("/api/user/get");
-          if (!response.ok) throw new Error("Failed to fetch user data");
+    if (!user?.id) {
+      return;
+    }
 
-          const data = await response.json();
-          const fullName =
-            `${data.user.firstname || ""} ${data.user.surname || ""}`.trim();
-          setName(fullName);
-          setEmail(data.user.email || "");
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          toast({
-            variant: "destructive",
-            title: t("errorTitle"),
-            description: "Failed to load user data",
-          });
-        }
-      }
-    };
-
-    fetchUserData();
-  }, [session, t, toast]);
+    const fullName = `${user.name || ""} ${user.surname || ""}`.trim();
+    setName(fullName);
+    setEmail(user.email || "");
+  }, [user]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -158,7 +141,7 @@ export default function ContactForm() {
             placeholder={t("namePlaceholder")}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            disabled={!!session?.user?.id}
+            disabled={!!user?.id}
           />
           <InputField
             label={t("email")}
@@ -169,7 +152,7 @@ export default function ContactForm() {
             placeholder="john@doe.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            disabled={!!session?.user?.id}
+            disabled={!!user?.id}
           />
           <InputField
             label={t("subject")}

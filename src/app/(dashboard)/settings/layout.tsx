@@ -1,4 +1,3 @@
-import { isLoggedIn } from "@/utils/isLoggedIn";
 import { getTranslations } from "next-intl/server";
 
 import { Header } from "@/components/ui/layout/Header";
@@ -9,7 +8,6 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await isLoggedIn();
   const t = await getTranslations("pages.settings");
 
   return (
