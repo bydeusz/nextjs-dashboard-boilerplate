@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/providers/AuthProvider";
+import { useAuthChangePassword } from "@/generated/api/endpoints";
 
 import { Loader2 } from "lucide-react";
 
@@ -23,6 +24,7 @@ import {
 export function UpdatePassword() {
   const { logout } = useAuth();
   const t = useTranslations("forms.user-password");
+  const { mutateAsync: changePassword } = useAuthChangePassword();
   const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -38,7 +40,7 @@ export function UpdatePassword() {
       return;
     }
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       setError(t("errors.passwordLength"));
       return;
     }
@@ -46,22 +48,32 @@ export function UpdatePassword() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/user/password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      await changePassword({
+        data: {
+          currentPassword,
+          newPassword: password,
         },
-        body: JSON.stringify({ currentPassword, password }),
       });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to update password");
-      }
 
       await logout();
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : t("errors.default"));
+      const maybeMessage =
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        typeof error.response === "object" &&
+        error.response &&
+        "data" in error.response &&
+        typeof error.response.data === "object" &&
+        error.response.data &&
+        "message" in error.response.data &&
+        typeof error.response.data.message === "string"
+          ? error.response.data.message
+          : null;
+
+      setError(
+        maybeMessage ?? (error instanceof Error ? error.message : t("errors.default")),
+      );
       console.error(error);
       setIsLoading(false);
     }

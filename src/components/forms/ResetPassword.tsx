@@ -7,6 +7,7 @@ import Link from "next/link";
 import { InputField } from "@/components/ui/inputs/Input";
 import { Button } from "@/components/ui/actions/Button";
 import { Loader2 } from "lucide-react";
+import { useAuthRequestNewPassword } from "@/generated/api/endpoints";
 import {
   Alert,
   AlertTitle,
@@ -27,6 +28,7 @@ export default function ResetPassword() {
   const [email, setEmail] = useState("");
 
   const t = useTranslations("auth.reset");
+  const { mutateAsync: requestNewPassword } = useAuthRequestNewPassword();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,23 +37,28 @@ export default function ResetPassword() {
     setSuccess(false);
 
     try {
-      const response = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
+      await requestNewPassword({
+        data: { email },
       });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || t("error"));
-      }
 
       setSuccess(true);
       setEmail("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      const maybeMessage =
+        err &&
+        typeof err === "object" &&
+        "response" in err &&
+        typeof err.response === "object" &&
+        err.response &&
+        "data" in err.response &&
+        typeof err.response.data === "object" &&
+        err.response.data &&
+        "message" in err.response.data &&
+        typeof err.response.data.message === "string"
+          ? err.response.data.message
+          : null;
+
+      setError(maybeMessage ?? (err instanceof Error ? err.message : t("error")));
     } finally {
       setIsLoading(false);
     }

@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { User } from "@/types/User";
 import { useAuth } from "@/providers/AuthProvider";
+import { useUserGetList } from "@/generated/api/endpoints";
 
 import { AddUser } from "@/components/modals/Add";
 import { SearchInput } from "@/components/ui/inputs/Search";
@@ -29,28 +30,13 @@ export function TeamList() {
   const t = useTranslations("navigation.navbar");
   const teamT = useTranslations("tables.team");
   const [searchQuery, setSearchQuery] = useState("");
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentUserData, setCurrentUserData] = useState<User | null>(null);
+  const { data: usersResponse, isLoading } = useUserGetList<{ data: User[] }>({});
+  const users = useMemo(() => usersResponse?.data ?? [], [usersResponse]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("/api/users/get");
-        if (!response.ok) throw new Error("Failed to fetch users");
-        const data = await response.json();
-        setUsers(data);
-        const foundUser = data.find((teamUser: User) => teamUser.id === user?.id);
-        setCurrentUserData(foundUser || null);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [user?.id]);
+  const currentUserData = useMemo(
+    () => users.find((teamUser) => teamUser.id === user?.id) || null,
+    [user?.id, users],
+  );
 
   // Filter users based on search query
   const filteredUsers = users.filter((user) => {

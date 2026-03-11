@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useAuthActivate } from "@/generated/api/endpoints";
 
 import {
   Card,
@@ -19,31 +20,83 @@ export default function VerifyEmail({ token }: { token: string }) {
   const t = useTranslations("auth.verify");
   const [error, setError] = useState("");
   const [isVerifying, setIsVerifying] = useState(true);
+  const { mutateAsync: activate } = useAuthActivate();
+
+  const extractActivationData = (rawToken: string) => {
+    const decoded = decodeURIComponent(rawToken);
+
+    if (decoded.includes(":")) {
+      const [email, ...codeParts] = decoded.split(":");
+      const code = codeParts.join(":");
+      if (email && code) {
+        return { email, code };
+      }
+    }
+
+    if (decoded.includes("|")) {
+      const [email, ...codeParts] = decoded.split("|");
+      const code = codeParts.join("|");
+      if (email && code) {
+        return { email, code };
+      }
+    }
+
+    if (decoded.split(".").length === 3) {
+      try {
+        const payloadPart = decoded.split(".")[1];
+        const base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+        const payloadJson = JSON.parse(atob(base64));
+        const email =
+          typeof payloadJson.email === "string"
+            ? payloadJson.email
+            : typeof payloadJson.sub === "string"
+              ? payloadJson.sub
+              : "";
+
+        if (email) {
+          return { email, code: decoded };
+        }
+      } catch {
+        return null;
+      }
+    }
+
+    return null;
+  };
 
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await fetch(`/api/auth/verify`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token }),
-        });
+        const activationData = extractActivationData(token);
 
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.error);
+        if (!activationData) {
+          throw new Error(t("error"));
         }
+
+        await activate({ data: activationData });
       } catch (err) {
-        setError(err instanceof Error ? err.message : t("error"));
+        const maybeMessage =
+          err &&
+          typeof err === "object" &&
+          "response" in err &&
+          typeof err.response === "object" &&
+          err.response &&
+          "data" in err.response &&
+          typeof err.response.data === "object" &&
+          err.response.data &&
+          "message" in err.response.data &&
+          typeof err.response.data.message === "string"
+            ? err.response.data.message
+            : null;
+
+        setError(maybeMessage ?? (err instanceof Error ? err.message : t("error")));
       } finally {
         setIsVerifying(false);
       }
     };
 
-    verifyEmail();
-  }, [token, t]);
+    void verifyEmail();
+  }, [activate, t, token]);
 
   if (isVerifying) {
     return (

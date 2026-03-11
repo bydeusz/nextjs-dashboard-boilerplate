@@ -3,6 +3,11 @@ import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { User } from "@/types/User";
 import { useAuth } from "@/providers/AuthProvider";
+import {
+  getUserGetListQueryKey,
+  useUserDelete,
+} from "@/generated/api/endpoints";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/actions/Button";
 import { InputField } from "@/components/ui/inputs/Input";
@@ -30,7 +35,9 @@ interface DeleteUserProps {
 
 export function DeleteUser({ user, disabled, buttonText }: DeleteUserProps) {
   const t = useTranslations("modals.delete");
+  const queryClient = useQueryClient();
   const { user: currentUser, logout } = useAuth();
+  const { mutateAsync: deleteUserMutation } = useUserDelete();
   const [inputValue, setInputValue] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,18 +58,7 @@ export function DeleteUser({ user, disabled, buttonText }: DeleteUserProps) {
     setError("");
 
     try {
-      const response = await fetch("/api/user/delete", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: id }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to delete user");
-      }
+      await deleteUserMutation({ id });
 
       setOpen(false);
 
@@ -70,10 +66,28 @@ export function DeleteUser({ user, disabled, buttonText }: DeleteUserProps) {
       if (currentUser?.id === id) {
         await logout();
       } else {
-        window.location.reload();
+        await queryClient.invalidateQueries({
+          queryKey: getUserGetListQueryKey({}),
+        });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete user");
+      const maybeMessage =
+        err &&
+        typeof err === "object" &&
+        "response" in err &&
+        typeof err.response === "object" &&
+        err.response &&
+        "data" in err.response &&
+        typeof err.response.data === "object" &&
+        err.response.data &&
+        "message" in err.response.data &&
+        typeof err.response.data.message === "string"
+          ? err.response.data.message
+          : null;
+
+      setError(
+        maybeMessage ?? (err instanceof Error ? err.message : "Failed to delete user"),
+      );
     } finally {
       setIsLoading(false);
     }

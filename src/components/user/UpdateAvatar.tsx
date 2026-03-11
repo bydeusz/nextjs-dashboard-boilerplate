@@ -1,10 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/useToast";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
+import {
+  getAuthMeGetQueryKey,
+  useAuthMeGet,
+  useFileUpload,
+} from "@/generated/api/endpoints";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
   Card,
@@ -19,51 +24,21 @@ interface UpdateAvatarProps {
 }
 
 export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
-  const router = useRouter();
   const t = useTranslations("forms.user-avatar");
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [isMinioActive, setIsMinioActive] = useState(false);
   const { toast } = useToast();
+  const { data: meResponse } = useAuthMeGet();
+  const { mutateAsync: uploadFile } = useFileUpload();
 
-  // Check MinIO status on component mount
   useEffect(() => {
-    const checkMinioStatus = async () => {
-      try {
-        const response = await fetch("/api/user/get", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setIsMinioActive(data.minioActive || false);
-          setAvatarPreview(data.user?.avatar || null);
-        }
-      } catch (err) {
-        console.error("Error checking MinIO status:", err);
-        setIsMinioActive(false);
-      }
-    };
-
-    checkMinioStatus();
-  }, []);
+    setAvatarPreview(meResponse?.data?.avatarUrl ?? null);
+  }, [meResponse]);
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    // Check if MinIO is active before proceeding
-    if (!isMinioActive) {
-      toast({
-        variant: "destructive",
-        title: t("errorTitle"),
-        description: "Avatar upload is currently disabled",
-      });
-      return;
-    }
 
     // Validate file type
     const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
@@ -103,36 +78,46 @@ export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
 
       try {
         setIsLoading(true);
-
-        const formData = new FormData();
-        formData.append("avatar", file);
-
-        const response = await fetch("/api/user/update-avatar", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Failed to update avatar");
+        const me = meResponse?.data;
+        if (!me?.id) {
+          throw new Error("Failed to resolve current user id");
         }
 
+        const response = await uploadFile({
+          scope: "user",
+          ownerId: me.id,
+          folder: "avatars",
+          data: { file },
+        });
+
         // Update preview with new avatar URL
-        setAvatarPreview(data.avatar);
+        setAvatarPreview(response.data.downloadUrl);
+        await queryClient.invalidateQueries({ queryKey: getAuthMeGetQueryKey() });
 
         toast({
           title: t("successTitle"),
           description: t("success"),
           variant: "success",
         });
-        router.refresh();
       } catch (err) {
+        const maybeMessage =
+          err &&
+          typeof err === "object" &&
+          "response" in err &&
+          typeof err.response === "object" &&
+          err.response &&
+          "data" in err.response &&
+          typeof err.response.data === "object" &&
+          err.response.data &&
+          "message" in err.response.data &&
+          typeof err.response.data.message === "string"
+            ? err.response.data.message
+            : null;
+
         toast({
           variant: "destructive",
           title: t("errorTitle"),
-          description:
-            err instanceof Error ? err.message : "Failed to update avatar",
+          description: maybeMessage ?? (err instanceof Error ? err.message : "Failed to update avatar"),
         });
       } finally {
         setIsLoading(false);
@@ -141,19 +126,6 @@ export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
 
     img.src = objectUrl;
   };
-
-  if (!isMinioActive) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>
-            Avatar upload feature is currently disabled.
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    );
-  }
 
   return (
     <Card>

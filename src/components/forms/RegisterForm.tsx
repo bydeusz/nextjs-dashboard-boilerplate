@@ -5,8 +5,10 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { InputField } from "@/components/ui/inputs/Input";
+import { PasswordInput } from "@/components/ui/inputs/Password";
 import { Button } from "@/components/ui/actions/Button";
 import { Loader2 } from "lucide-react";
+import { useAuthRegister } from "@/generated/api/endpoints";
 import {
   Alert,
   AlertTitle,
@@ -27,35 +29,52 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [firstname, setFirstname] = useState("");
   const [surname, setSurname] = useState("");
+  const [password, setPassword] = useState("");
 
   const t = useTranslations("auth.register.form");
+  const { mutateAsync: register } = useAuthRegister();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
     setError("");
 
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          firstname,
-          surname,
-        }),
-      });
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      setIsLoading(false);
+      return;
+    }
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to register");
-      }
+    try {
+      await register({
+        data: {
+          email,
+          name: firstname,
+          surname,
+          password,
+        },
+      });
 
       router.push(`/register/confirm?email=${encodeURIComponent(email)}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      const maybeMessage =
+        err &&
+        typeof err === "object" &&
+        "response" in err &&
+        typeof err.response === "object" &&
+        err.response &&
+        "data" in err.response &&
+        typeof err.response.data === "object" &&
+        err.response.data &&
+        "message" in err.response.data &&
+        typeof err.response.data.message === "string"
+          ? err.response.data.message
+          : null;
+
+      setError(
+        maybeMessage ??
+          (err instanceof Error ? err.message : "Something went wrong"),
+      );
     } finally {
       setIsLoading(false);
     }
@@ -97,6 +116,15 @@ export default function RegisterForm() {
             placeholder={t("emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <PasswordInput
+            label="Password"
+            required={true}
+            name="password"
+            id="password"
+            placeholder="********"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <div className="flex space-x-4 items-center">
             <Button disabled={isLoading} variant="default">

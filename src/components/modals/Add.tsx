@@ -1,6 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import {
+  getUserGetListQueryKey,
+  useUserCreate,
+} from "@/generated/api/endpoints";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Loader2 } from "lucide-react";
 
@@ -27,6 +32,8 @@ interface AddUserProps {
 
 export const AddUser = ({ isAdmin }: AddUserProps) => {
   const t = useTranslations("modals.add");
+  const queryClient = useQueryClient();
+  const { mutateAsync: createUser } = useUserCreate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
@@ -51,28 +58,39 @@ export const AddUser = ({ isAdmin }: AddUserProps) => {
     setError("");
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await createUser({
+        data: {
           email: inputValue.email,
-          firstname: inputValue.firstname,
+          name: inputValue.firstname,
           surname: inputValue.surname,
-        }),
+          isAdmin: false,
+        },
       });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to invite user");
-      }
+      await queryClient.invalidateQueries({
+        queryKey: getUserGetListQueryKey({}),
+      });
 
       // Reset form and close dialog on success
       setInputValue({ firstname: "", surname: "", email: "" });
       setOpen(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      const maybeMessage =
+        err &&
+        typeof err === "object" &&
+        "response" in err &&
+        typeof err.response === "object" &&
+        err.response &&
+        "data" in err.response &&
+        typeof err.response.data === "object" &&
+        err.response.data &&
+        "message" in err.response.data &&
+        typeof err.response.data.message === "string"
+          ? err.response.data.message
+          : null;
+
+      setError(
+        maybeMessage ?? (err instanceof Error ? err.message : "Something went wrong"),
+      );
     } finally {
       setIsLoading(false);
     }
