@@ -1,0 +1,236 @@
+{
+  "auth": {
+    "login": {
+      "title": "Welkom terug",
+      "description": "Log in om door te gaan naar je dashboard.",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "signIn": "Inloggen",
+      "forgotPassword": "Wachtwoord vergeten?",
+      "alreadyHaveAccount": "Heb je nog geen account?",
+      "noAccount": "Maak er een aan",
+      "errorTitle": "Inloggen mislukt",
+      "errors": {
+        "missingCredentials": "Vul je e-mailadres en wachtwoord in.",
+        "userNotFound": "Er is geen account gevonden met dit e-mailadres.",
+        "invalidPassword": "Het ingevoerde wachtwoord is onjuist.",
+        "emailNotVerified": "Verifieer eerst je e-mailadres voordat je inlogt.",
+        "default": "Inloggen lukt nu niet. Probeer het opnieuw."
+      }
+    },
+    "register": {
+      "form": {
+        "title": "Maak je account aan",
+        "description": "Vul je gegevens in om te starten.",
+        "firstname": "Voornaam",
+        "firstnamePlaceholder": "Jan",
+        "surname": "Achternaam",
+        "surnamePlaceholder": "Jansen",
+        "email": "E-mailadres",
+        "emailPlaceholder": "jan@voorbeeld.nl",
+        "signUp": "Registreren",
+        "alreadyHaveAccount": "Heb je al een account?",
+        "errorTitle": "Registreren mislukt"
+      },
+      "confirm": {
+        "title": "Controleer je inbox",
+        "description": "We hebben een bevestigingsmail gestuurd naar {email}. Open de mail en bevestig je account.",
+        "button": "Terug naar inloggen"
+      }
+    },
+    "verify": {
+      "error": "We konden je e-mailadres niet verifiëren.",
+      "success": "Je e-mailadres is succesvol geverifieerd.",
+      "redirecting": "Je wordt doorgestuurd naar inloggen...",
+      "backToLogin": "Terug naar inloggen"
+    },
+    "reset": {
+      "title": "Wachtwoord opnieuw instellen",
+      "description": "Stel een nieuw wachtwoord in voor je account.",
+      "email": "E-mailadres",
+      "submit": "Verstuur resetlink",
+      "login": "Terug naar inloggen",
+      "error": "We konden je aanvraag niet verwerken.",
+      "success": "Als er een account bestaat voor dit e-mailadres, is er een resetlink verstuurd.",
+      "newPassword": "Nieuw wachtwoord",
+      "newPasswordPlaceholder": "Voer je nieuwe wachtwoord in",
+      "confirmPassword": "Bevestig nieuw wachtwoord",
+      "confirmPasswordPlaceholder": "Bevestig je nieuwe wachtwoord",
+      "resetButton": "Wachtwoord resetten",
+      "errors": {
+        "passwordMismatch": "Wachtwoorden komen niet overeen.",
+        "passwordLength": "Wachtwoord moet minimaal 6 tekens bevatten."
+      }
+    }
+  },
+  "navigation": {
+    "navbar": {
+      "search": "Zoeken...",
+      "links": {
+        "dashboard": "Dashboard",
+        "websites": "Websites",
+        "settings": "Instellingen",
+        "support": "Ondersteuning"
+      }
+    },
+    "language": {
+      "dutch": "Nederlands",
+      "english": "Engels"
+    }
+  },
+  "forms": {
+    "support": {
+      "title": "Contact opnemen",
+      "description": "Stuur ons een bericht en we nemen zo snel mogelijk contact met je op.",
+      "name": "Naam",
+      "namePlaceholder": "Jan Jansen",
+      "email": "E-mailadres",
+      "subject": "Onderwerp",
+      "subjectPlaceholder": "Waarmee kunnen we helpen?",
+      "message": "Bericht",
+      "attachment": "Bijlage",
+      "attachmentHelp": "Toegestane bestandstypen: JPG, JPEG, PNG, GIF. Maximale grootte: 3 MB.",
+      "submit": "Bericht verzenden",
+      "errorTitle": "Er is iets misgegaan",
+      "fileTypeError": "Ongeldig bestandstype. Upload JPG, JPEG, PNG of GIF.",
+      "fileSizeError": "Bestand is te groot. Maximale grootte is 3 MB.",
+      "successTitle": "Bericht verzonden",
+      "success": "Je bericht is succesvol verzonden."
+    },
+    "user-avatar": {
+      "title": "Profielfoto",
+      "desc": "Upload een nieuwe profielfoto.",
+      "button": "Avatar bijwerken",
+      "errorTitle": "Bijwerken van avatar mislukt",
+      "successTitle": "Avatar bijgewerkt",
+      "success": "Je profielfoto is bijgewerkt."
+    },
+    "user-password": {
+      "title": "Wachtwoord bijwerken",
+      "currentPassword": "Huidig wachtwoord",
+      "currentPasswordPlaceholder": "Voer je huidige wachtwoord in",
+      "newPassword": "Nieuw wachtwoord",
+      "newPasswordPlaceholder": "Voer een nieuw wachtwoord in",
+      "confirmPassword": "Bevestig nieuw wachtwoord",
+      "confirmPasswordPlaceholder": "Bevestig je nieuwe wachtwoord",
+      "update": "Wachtwoord bijwerken",
+      "errors": {
+        "passwordMismatch": "Wachtwoorden komen niet overeen.",
+        "passwordLength": "Wachtwoord moet minimaal 6 tekens bevatten.",
+        "default": "Bijwerken van wachtwoord mislukt."
+      }
+    },
+    "user-update": {
+      "title": "Profielgegevens",
+      "firstname": "Voornaam",
+      "firstnamePlaceholder": "Jan",
+      "surname": "Achternaam",
+      "surnamePlaceholder": "Jansen",
+      "email": "E-mailadres",
+      "emailPlaceholder": "jan@voorbeeld.nl",
+      "save": "Wijzigingen opslaan",
+      "successTitle": "Profiel bijgewerkt",
+      "successMessage": "Je profiel is succesvol bijgewerkt.",
+      "errorTitle": "Bijwerken mislukt"
+    },
+    "user-delete": {
+      "title": "Account verwijderen",
+      "description": "Verwijder je account en alle bijbehorende gegevens permanent.",
+      "deleteButton": "Account verwijderen"
+    }
+  },
+  "modals": {
+    "add": {
+      "button": "Gebruiker toevoegen",
+      "title": "Teamlid toevoegen",
+      "desc": "Nodig een nieuw teamlid uit door onderstaande gegevens in te vullen.",
+      "firstname": "Voornaam",
+      "firstnamePlaceholder": "Jan",
+      "surname": "Achternaam",
+      "surnamePlaceholder": "Jansen",
+      "email": "E-mailadres",
+      "emailPlaceholder": "jan@voorbeeld.nl",
+      "errorTitle": "Teamlid toevoegen mislukt"
+    },
+    "delete": {
+      "title": "Gebruiker verwijderen",
+      "desc": "Deze actie kan niet ongedaan worden gemaakt.",
+      "label": "Typ DELETE om het verwijderen te bevestigen van",
+      "placeholder": "Typ DELETE",
+      "button": "Verwijderen",
+      "error": {
+        "title": "Gebruiker verwijderen mislukt"
+      }
+    },
+    "admin": {
+      "demote": {
+        "title": "Adminrechten intrekken",
+        "desc": "Deze gebruiker verliest beheerdersrechten.",
+        "label": "Typ DEMOTE om de wijziging te bevestigen voor",
+        "placeholder": "Typ DEMOTE",
+        "button": "Degraderen"
+      },
+      "promote": {
+        "title": "Adminrechten toekennen",
+        "desc": "Deze gebruiker krijgt beheerdersrechten.",
+        "label": "Typ PROMOTE om de wijziging te bevestigen voor",
+        "placeholder": "Typ PROMOTE",
+        "button": "Promoveren"
+      },
+      "error": {
+        "title": "Gebruikersrol bijwerken mislukt"
+      }
+    }
+  },
+  "tables": {
+    "team": {
+      "name": "Naam",
+      "email": "E-mail",
+      "role": "Rol",
+      "status": "Status",
+      "settings": "Instellingen",
+      "admin": "Admin",
+      "pending": "In afwachting"
+    }
+  },
+  "pages": {
+    "settings": {
+      "title": "Instellingen",
+      "description": "Beheer je account- en teamvoorkeuren.",
+      "tabs": {
+        "profile": "Profiel",
+        "account": "Account",
+        "team": "Team"
+      }
+    },
+    "websites": {
+      "title": "Websites"
+    },
+    "dashboard": {
+      "title": "Dashboard"
+    }
+  },
+  "common": {
+    "buttons": {
+      "logout": "Uitloggen"
+    },
+    "data": {
+      "roles": {
+        "designer": "Designer",
+        "sales": "Sales",
+        "softwareEngineer": "Software Engineer",
+        "manager": "Manager",
+        "seoSpecialist": "SEO-specialist",
+        "contentCreator": "Contentmaker"
+      }
+    }
+  },
+  "inputs": {
+    "errors": {
+      "required": "Dit veld is verplicht.",
+      "email": "Vul een geldig e-mailadres in.",
+      "url": "Vul een geldige URL in.",
+      "tel": "Vul een geldig telefoonnummer in."
+    }
+  }
+}
