@@ -51,7 +51,7 @@
       "codeRequired": "Please enter the activation code from your email.",
       "error": "We could not verify your email.",
       "success": "Your email has been verified successfully.",
-      "redirecting": "Redirecting you to login...",
+      "redirecting": "Your account is verified. Click \"Back to login\" to continue.",
       "backToLogin": "Back to login"
     },
     "reset": {

@@ -14,7 +14,12 @@ import {
 } from "@/components/ui/layout/Card";
 import { InputField } from "@/components/ui/inputs/Input";
 import { Button } from "@/components/ui/actions/Button";
-import { Loader2, ShieldCheck, ShieldX } from "lucide-react";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/messages/Alert";
+import { Loader2 } from "lucide-react";
 
 const CODE_LENGTH = 6;
 
@@ -28,6 +33,7 @@ export default function VerifyEmail({ email }: { email: string }) {
   const { mutateAsync: activate } = useAuthActivate();
   const sanitizedEmail = email.trim();
   const hasEmail = sanitizedEmail.length > 0;
+  const displayError = !hasEmail ? t("missingEmail") : error;
   const codeDigits = Array.from(
     { length: CODE_LENGTH },
     (_, index) => code[index] ?? "",
@@ -128,24 +134,7 @@ export default function VerifyEmail({ email }: { email: string }) {
     <Card className="shadow-2xl">
       <CardHeader>
         <CardTitle>
-          <div className="flex items-center">
-            {error || !hasEmail ? (
-              <ShieldX className="size-6 mr-2 text-red-500" />
-            ) : (
-              <ShieldCheck className="size-6 mr-2 text-green-500" />
-            )}
-            <span
-              className={
-                error || !hasEmail ? "text-red-500" : "text-green-500"
-              }>
-              {error ||
-                (!hasEmail
-                  ? t("missingEmail")
-                  : isSuccess
-                    ? t("success")
-                    : t("title"))}
-            </span>
-          </div>
+          <span>{isSuccess ? t("success") : t("title")}</span>
         </CardTitle>
         <CardDescription>
           {isSuccess ? t("redirecting") : t("description")}
@@ -205,6 +194,12 @@ export default function VerifyEmail({ email }: { email: string }) {
                 {t("backToLogin")}
               </Link>
             </div>
+            {displayError && (
+              <Alert variant="destructive">
+                <AlertTitle>{t("error")}</AlertTitle>
+                <AlertDescription>{displayError}</AlertDescription>
+              </Alert>
+            )}
           </form>
         )}
         {isSuccess && (

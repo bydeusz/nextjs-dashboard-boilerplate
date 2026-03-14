@@ -51,7 +51,7 @@
       "codeRequired": "Vul de activatiecode uit je e-mail in.",
       "error": "We konden je e-mailadres niet verifiëren.",
       "success": "Je e-mailadres is succesvol geverifieerd.",
-      "redirecting": "Je wordt doorgestuurd naar inloggen...",
+      "redirecting": "Je account is geverifieerd. Klik op \"Terug naar inloggen\" om verder te gaan.",
       "backToLogin": "Terug naar inloggen"
     },
     "reset": {
