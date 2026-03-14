@@ -55,7 +55,8 @@ export default function RegisterForm() {
         },
       });
 
-      router.push(`/register/confirm?email=${encodeURIComponent(email)}`);
+      sessionStorage.setItem("registerEmail", email);
+      router.push("/register/confirm");
     } catch (err) {
       const maybeMessage =
         err &&

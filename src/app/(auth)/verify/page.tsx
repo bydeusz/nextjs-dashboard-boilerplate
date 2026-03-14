@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import VerifyEmail from "@/components/forms/VerifyEmail";
 
 export const metadata: Metadata = {
@@ -9,17 +8,13 @@ export const metadata: Metadata = {
 export default async function VerifyPage({
   searchParams,
 }: {
-  searchParams: Promise<{ token: string }>;
+  searchParams: Promise<{ email?: string }>;
 }) {
-  const { token } = await searchParams;
-  
-  if (!token) {
-    redirect("/login");
-  }
+  const { email } = await searchParams;
 
   return (
     <>
-      <VerifyEmail token={token} />
+      <VerifyEmail email={email ?? ""} />
     </>
   );
 }

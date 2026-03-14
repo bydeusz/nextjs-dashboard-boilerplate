@@ -35,10 +35,20 @@
       "confirm": {
         "title": "Check your inbox",
         "description": "We sent a confirmation email to {email}. Please open it and confirm your account.",
+        "emailFallback": "your email address",
         "button": "Back to login"
       }
     },
     "verify": {
+      "title": "Verify your email",
+      "description": "Enter the activation code from your email to verify your account.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "john@doe.com",
+      "codeLabel": "Activation code",
+      "codePlaceholder": "123456",
+      "submit": "Verify account",
+      "missingEmail": "We are missing your email address. Please use the verification link from your email.",
+      "codeRequired": "Please enter the activation code from your email.",
       "error": "We could not verify your email.",
       "success": "Your email has been verified successfully.",
       "redirecting": "Redirecting you to login...",

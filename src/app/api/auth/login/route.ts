@@ -22,8 +22,14 @@ export async function POST(request: Request) {
           access_token?: string;
           refresh_token?: string;
           message?: string;
+          data?: {
+            access_token?: string;
+            refresh_token?: string;
+          };
         })
       : {};
+    const accessToken = data.access_token ?? data.data?.access_token;
+    const refreshToken = data.refresh_token ?? data.data?.refresh_token;
 
     if (!response.ok) {
       return NextResponse.json(
@@ -32,7 +38,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!data.access_token || !data.refresh_token) {
+    if (!accessToken || !refreshToken) {
       return NextResponse.json(
         { message: "Invalid token response from backend" },
         { status: 502 },
@@ -40,11 +46,11 @@ export async function POST(request: Request) {
     }
 
     const nextResponse = NextResponse.json(
-      { access_token: data.access_token },
+      { access_token: accessToken },
       { status: 200 },
     );
 
-    nextResponse.cookies.set(REFRESH_TOKEN_COOKIE_NAME, data.refresh_token, {
+    nextResponse.cookies.set(REFRESH_TOKEN_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

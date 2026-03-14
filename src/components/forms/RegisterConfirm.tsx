@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
@@ -11,22 +12,23 @@ import {
   CardTitle,
 } from "@/components/ui/layout/Card";
 import { Button } from "@/components/ui/actions/Button";
-import { ShieldCheck } from "lucide-react";
 
-export default function RegisterConfirm({ email }: { email: string }) {
+export default function RegisterConfirm() {
   const router = useRouter();
   const t = useTranslations("auth.register.confirm");
+  const [email] = useState(() =>
+    typeof window === "undefined"
+      ? ""
+      : (sessionStorage.getItem("registerEmail") ?? ""),
+  );
 
   return (
     <Card className="shadow-2xl">
       <CardHeader>
-        <CardTitle>
-          <div className="flex items-center">
-            <ShieldCheck className="size-6 mr-2 text-green-500" />{" "}
-            <span className="text-green-500">{t("title")}</span>
-          </div>
-        </CardTitle>
-        <CardDescription>{t("description", { email })}</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>
+          {t("description", { email: email || t("emailFallback") })}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Button variant="default" onClick={() => router.push("/login")}>

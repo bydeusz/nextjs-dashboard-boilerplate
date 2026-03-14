@@ -35,10 +35,20 @@
       "confirm": {
         "title": "Controleer je inbox",
         "description": "We hebben een bevestigingsmail gestuurd naar {email}. Open de mail en bevestig je account.",
+        "emailFallback": "je e-mailadres",
         "button": "Terug naar inloggen"
       }
     },
     "verify": {
+      "title": "Verifieer je e-mailadres",
+      "description": "Vul de activatiecode uit je e-mail in om je account te verifiëren.",
+      "emailLabel": "E-mailadres",
+      "emailPlaceholder": "jan@voorbeeld.nl",
+      "codeLabel": "Activatiecode",
+      "codePlaceholder": "123456",
+      "submit": "Account verifiëren",
+      "missingEmail": "Je e-mailadres ontbreekt. Gebruik de verificatielink uit je e-mail.",
+      "codeRequired": "Vul de activatiecode uit je e-mail in.",
       "error": "We konden je e-mailadres niet verifiëren.",
       "success": "Je e-mailadres is succesvol geverifieerd.",
       "redirecting": "Je wordt doorgestuurd naar inloggen...",
