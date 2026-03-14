@@ -20,14 +20,23 @@ export default function LanguageSwitcher() {
   ];
 
   const handleLanguageChange = async (newLocale: string) => {
-    // Set the cookie using Next.js API route
-    await fetch("/api/language", {
+    if (newLocale === locale) {
+      setIsOpen(false);
+      return;
+    }
+
+    const response = await fetch("/api/language", {
       method: "POST",
       body: JSON.stringify({ locale: newLocale }),
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    if (!response.ok) {
+      console.error("[LanguageSwitcher] Failed to switch locale");
+      return;
+    }
 
     // Refresh the page to apply the new locale
     router.refresh();
