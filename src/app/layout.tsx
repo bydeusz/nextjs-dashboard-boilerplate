@@ -1,10 +1,17 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { Inter } from "next/font/google";
 import { Toaster } from "@/providers/ToastProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
 
 import "@/assets/styles/globals.css";
+
+const fontSans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export default async function RootLayout({
   children,
@@ -15,8 +22,8 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <body>
+    <html lang={locale} className={fontSans.variable}>
+      <body className="font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <AuthProvider>
