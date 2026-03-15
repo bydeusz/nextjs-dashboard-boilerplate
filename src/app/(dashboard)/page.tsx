@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Dashboard - Next JS Dashboard Boilerplate by @bydeusz.com",
 };
 
-export default async function Home() {
+export default async function DashboardPage() {
   const t = await getTranslations("pages.dashboard");
 
   return (
