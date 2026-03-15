@@ -42,6 +42,14 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+function isAuthUser(value: unknown): value is AuthUser {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  return typeof (value as AuthUser).id === "string";
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -55,7 +63,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const syncCurrentUser = useCallback(async () => {
     const result = await refetchMe();
-    const me = result.data?.data;
+    const payload = result.data?.data;
+    const nestedPayload =
+      payload && typeof payload === "object" && "data" in payload
+        ? (payload as { data?: unknown }).data
+        : null;
+    const me = isAuthUser(payload)
+      ? payload
+      : isAuthUser(nestedPayload)
+        ? nestedPayload
+        : null;
 
     if (!me) {
       throw new Error("Failed to fetch current user");
