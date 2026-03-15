@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/hooks/useToast";
 import { useAuth } from "@/providers/AuthProvider";
+import { useMailContactSupport } from "@/generated/api/endpoints";
 
 import { Loader2 } from "lucide-react";
 
@@ -20,7 +21,6 @@ import { Button } from "@/components/ui/actions/Button";
 
 export default function ContactForm() {
   const { user } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -29,6 +29,7 @@ export default function ContactForm() {
 
   const t = useTranslations("forms.support");
   const { toast } = useToast();
+  const { mutateAsync: sendSupportMail, isPending } = useMailContactSupport();
 
   useEffect(() => {
     if (!user?.id) {
@@ -75,27 +76,17 @@ export default function ContactForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("subject", subject);
-      formData.append("message", message);
-      if (attachment) {
-        formData.append("attachment", attachment);
-      }
-
-      const response = await fetch("/api/mailer/contact", {
-        method: "POST",
-        body: formData,
+      await sendSupportMail({
+        data: {
+          name,
+          email,
+          subject,
+          message,
+          ...(attachment ? { attachment } : {}),
+        },
       });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to send message");
-      }
 
       // Reset form except for user data
       setSubject("");
@@ -113,14 +104,21 @@ export default function ContactForm() {
         description: t("success"),
       });
     } catch (err) {
+      const fallbackMessage = err instanceof Error ? err.message : "Something went wrong";
+      const messageFromApi =
+        typeof err === "object" &&
+        err !== null &&
+        "response" in err &&
+        typeof (err as { response?: { data?: { message?: unknown } } }).response?.data?.message ===
+          "string"
+          ? (err as { response: { data: { message: string } } }).response.data.message
+          : null;
+
       toast({
         variant: "destructive",
         title: t("errorTitle"),
-        description:
-          err instanceof Error ? err.message : "Something went wrong",
+        description: messageFromApi ?? fallbackMessage,
       });
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -194,8 +192,8 @@ export default function ContactForm() {
             <p className="text-xs text-gray-500">{t("attachmentHelp")}</p>
           </div>
           <div className="pt-2">
-            <Button variant="default" disabled={isLoading}>
-              {isLoading && <Loader2 className="size-4" />}
+            <Button variant="default" disabled={isPending}>
+              {isPending && <Loader2 className="size-4" />}
               {t("submit")}
             </Button>
           </div>

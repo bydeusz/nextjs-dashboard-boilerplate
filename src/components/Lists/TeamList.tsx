@@ -30,7 +30,9 @@ export function TeamList() {
   const t = useTranslations("navigation.navbar");
   const teamT = useTranslations("tables.team");
   const [searchQuery, setSearchQuery] = useState("");
-  const { data: usersResponse, isLoading } = useUserGetList<{ data: User[] }>({});
+  const { data: usersResponse, isLoading } = useUserGetList<{ data: User[] }>(
+    {} as any,
+  );
   const users = useMemo(() => usersResponse?.data ?? [], [usersResponse]);
 
   const currentUserData = useMemo(

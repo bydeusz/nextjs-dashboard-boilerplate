@@ -25,6 +25,7 @@ export * from './healthCheck503Details';
 export * from './healthCheck503Error';
 export * from './healthCheck503Info';
 export * from './loginDto';
+export * from './mailContactSupportBody';
 export * from './messageResponseDto';
 export * from './object';
 export * from './organisationGetListParams';

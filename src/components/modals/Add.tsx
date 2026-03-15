@@ -67,7 +67,7 @@ export const AddUser = ({ isAdmin }: AddUserProps) => {
         },
       });
       await queryClient.invalidateQueries({
-        queryKey: getUserGetListQueryKey({}),
+        queryKey: getUserGetListQueryKey({} as any),
       });
 
       // Reset form and close dialog on success

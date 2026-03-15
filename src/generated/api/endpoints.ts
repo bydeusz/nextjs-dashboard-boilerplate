@@ -38,6 +38,7 @@ import type {
   HealthCheck200,
   HealthCheck503,
   LoginDto,
+  MailContactSupportBody,
   MessageResponseDto,
   OrganisationGetListParams,
   OrganisationResponseDto,
@@ -1914,6 +1915,91 @@ export function useHealthCheck<TData = Awaited<ReturnType<typeof healthCheck>>, 
 
 
 
+export type mailContactSupportResponse200 = {
+  data: MessageResponseDto
+  status: 200
+}
+
+export type mailContactSupportResponseSuccess = (mailContactSupportResponse200) & {
+  headers: Headers;
+};
+;
+
+export type mailContactSupportResponse = (mailContactSupportResponseSuccess)
+
+export const getMailContactSupportUrl = () => {
+
+
+  
+
+  return `/api/v1/mail/contact`
+}
+
+export const mailContactSupport = async (mailContactSupportBody: MailContactSupportBody, options?: RequestInit): Promise<mailContactSupportResponse> => {
+    const formData = new FormData();
+formData.append(`name`, mailContactSupportBody.name);
+formData.append(`email`, mailContactSupportBody.email);
+formData.append(`subject`, mailContactSupportBody.subject);
+formData.append(`message`, mailContactSupportBody.message);
+if(mailContactSupportBody.attachment !== undefined) {
+ formData.append(`attachment`, mailContactSupportBody.attachment);
+ }
+
+  return customInstance<mailContactSupportResponse>(getMailContactSupportUrl(),
+  {      
+    ...options,
+    method: 'POST'
+    ,
+    body: 
+      formData,
+  }
+);}
+  
+
+
+
+export const getMailContactSupportMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof mailContactSupport>>, TError,{data: MailContactSupportBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof mailContactSupport>>, TError,{data: MailContactSupportBody}, TContext> => {
+
+const mutationKey = ['mailContactSupport'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof mailContactSupport>>, {data: MailContactSupportBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  mailContactSupport(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MailContactSupportMutationResult = NonNullable<Awaited<ReturnType<typeof mailContactSupport>>>
+    export type MailContactSupportMutationBody = MailContactSupportBody
+    export type MailContactSupportMutationError = unknown
+
+    export const useMailContactSupport = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof mailContactSupport>>, TError,{data: MailContactSupportBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof mailContactSupport>>,
+        TError,
+        {data: MailContactSupportBody},
+        TContext
+      > => {
+      return useMutation(getMailContactSupportMutationOptions(options), queryClient);
+    }
+    
 export type organisationCreateResponse201 = {
   data: OrganisationResponseDto
   status: 201

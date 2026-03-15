@@ -67,7 +67,7 @@ export function DeleteUser({ user, disabled, buttonText }: DeleteUserProps) {
         await logout();
       } else {
         await queryClient.invalidateQueries({
-          queryKey: getUserGetListQueryKey({}),
+          queryKey: getUserGetListQueryKey({} as any),
         });
       }
     } catch (err) {
