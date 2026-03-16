@@ -15,6 +15,7 @@
         "userNotFound": "No account was found for this email address.",
         "invalidPassword": "The password you entered is incorrect.",
         "emailNotVerified": "Please verify your email before signing in.",
+        "passwordResetRequired": "Your account is temporarily disabled after a password reset. Check your email and set a new password first.",
         "default": "Unable to sign in right now. Please try again."
       }
     },
@@ -62,6 +63,9 @@
       "login": "Back to login",
       "error": "We could not process your request.",
       "success": "If an account exists for this email, a reset link has been sent.",
+      "missingEmail": "We are missing your email address. Please use the link from your email.",
+      "temporaryPassword": "Temporary password",
+      "temporaryPasswordPlaceholder": "Enter the temporary password from your email",
       "newPassword": "New password",
       "newPasswordPlaceholder": "Enter your new password",
       "confirmPassword": "Confirm new password",
@@ -69,7 +73,8 @@
       "resetButton": "Reset password",
       "errors": {
         "passwordMismatch": "Passwords do not match.",
-        "passwordLength": "Password must be at least 6 characters."
+        "passwordLength": "Password must be at least 8 characters.",
+        "expired": "The temporary password has expired. Please request a new one."
       }
     }
   },

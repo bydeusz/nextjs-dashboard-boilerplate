@@ -10,18 +10,17 @@ export const metadata: Metadata = {
 export default async function ResetPasswordConfirmPage({
   searchParams,
 }: {
-  searchParams: Promise<{ token: string }>;
+  searchParams: Promise<{ email?: string }>;
 }) {
-  const { token } = await searchParams;
+  const { email } = await searchParams;
 
-  // Redirect to reset password page if no token
-  if (!token) {
+  if (!email) {
     redirect("/reset-password");
   }
 
   return (
     <>
-      <PasswordForm token={token} />
+      <PasswordForm email={email} />
     </>
   );
 }

@@ -43,6 +43,8 @@ export default function LoginForm() {
         return t("errors.invalidPassword");
       case "EmailNotVerified":
         return t("errors.emailNotVerified");
+      case "PasswordResetRequired":
+        return t("errors.passwordResetRequired");
       default:
         return t("errors.default");
     }

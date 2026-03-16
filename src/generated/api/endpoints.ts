@@ -46,6 +46,7 @@ import type {
   RegisterDto,
   RequestNewPasswordDto,
   ResendActivationDto,
+  ResetPasswordDto,
   UpdateOrganisationDto,
   UpdateUserDto,
   UserGetListParams,
@@ -547,6 +548,83 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
       return useMutation(getAuthRequestNewPasswordMutationOptions(options), queryClient);
+    }
+    
+export type authResetPasswordResponse200 = {
+  data: MessageResponseDto
+  status: 200
+}
+
+export type authResetPasswordResponseSuccess = (authResetPasswordResponse200) & {
+  headers: Headers;
+};
+;
+
+export type authResetPasswordResponse = (authResetPasswordResponseSuccess)
+
+export const getAuthResetPasswordUrl = () => {
+
+
+  
+
+  return `/api/v1/auth/reset-password`
+}
+
+export const authResetPassword = async (resetPasswordDto: ResetPasswordDto, options?: RequestInit): Promise<authResetPasswordResponse> => {
+  
+  return customInstance<authResetPasswordResponse>(getAuthResetPasswordUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      resetPasswordDto,)
+  }
+);}
+  
+
+
+
+export const getAuthResetPasswordMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authResetPassword>>, TError,{data: ResetPasswordDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof authResetPassword>>, TError,{data: ResetPasswordDto}, TContext> => {
+
+const mutationKey = ['authResetPassword'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authResetPassword>>, {data: ResetPasswordDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  authResetPassword(data,requestOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthResetPasswordMutationResult = NonNullable<Awaited<ReturnType<typeof authResetPassword>>>
+    export type AuthResetPasswordMutationBody = ResetPasswordDto
+    export type AuthResetPasswordMutationError = unknown
+
+    export const useAuthResetPassword = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authResetPassword>>, TError,{data: ResetPasswordDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authResetPassword>>,
+        TError,
+        {data: ResetPasswordDto},
+        TContext
+      > => {
+      return useMutation(getAuthResetPasswordMutationOptions(options), queryClient);
     }
     
 export type authRefreshResponse200 = {

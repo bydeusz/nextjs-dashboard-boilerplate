@@ -34,6 +34,7 @@ export * from './refreshTokenDto';
 export * from './registerDto';
 export * from './requestNewPasswordDto';
 export * from './resendActivationDto';
+export * from './resetPasswordDto';
 export * from './updateOrganisationDto';
 export * from './updateUserDto';
 export * from './userGetListParams';

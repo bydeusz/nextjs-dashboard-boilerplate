@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useAuthResetPassword } from "@/generated/api/endpoints";
 
 import { PasswordInput } from "@/components/ui/inputs/Password";
+import { InputField } from "@/components/ui/inputs/Input";
 import { Loader2 } from "lucide-react";
 import {
   Alert,
@@ -22,28 +24,35 @@ import {
 } from "@/components/ui/layout/Card";
 
 interface PasswordFormProps {
-  token: string;
+  email: string;
 }
 
-export default function PasswordForm({ token }: PasswordFormProps) {
+export default function PasswordForm({ email }: PasswordFormProps) {
   const router = useRouter();
-  const [password, setPassword] = useState("");
+  const [temporaryPassword, setTemporaryPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const t = useTranslations("auth.reset");
+  const { mutateAsync: resetPassword } = useAuthResetPassword();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (password !== confirmPassword) {
+    if (!email.trim()) {
+      setError(t("missingEmail"));
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
       setError(t("errors.passwordMismatch"));
       return;
     }
 
-    if (password.length < 6) {
+    if (newPassword.length < 8) {
       setError(t("errors.passwordLength"));
       return;
     }
@@ -51,22 +60,37 @@ export default function PasswordForm({ token }: PasswordFormProps) {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/reset-password/confirm", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      await resetPassword({
+        data: {
+          email,
+          temporaryPassword,
+          newPassword,
         },
-        body: JSON.stringify({ token, password }),
       });
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
-      }
-
       router.push("/login?reset=success");
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Something went wrong");
+    } catch (err) {
+      const maybeMessage =
+        err &&
+        typeof err === "object" &&
+        "response" in err &&
+        typeof err.response === "object" &&
+        err.response &&
+        "data" in err.response &&
+        typeof err.response.data === "object" &&
+        err.response.data &&
+        "message" in err.response.data &&
+        typeof err.response.data.message === "string"
+          ? err.response.data.message
+          : null;
+
+      if (maybeMessage === "Temporary password has expired.") {
+        setError(t("errors.expired"));
+      } else {
+        setError(
+          maybeMessage ?? (err instanceof Error ? err.message : t("error")),
+        );
+      }
     } finally {
       setIsLoading(false);
     }
@@ -80,14 +104,33 @@ export default function PasswordForm({ token }: PasswordFormProps) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <InputField
+            label={t("email")}
+            required={true}
+            type="email"
+            name="email"
+            id="email"
+            disabled={true}
+            value={email}
+            onChange={() => undefined}
+          />
+          <PasswordInput
+            label={t("temporaryPassword")}
+            required={true}
+            name="temporaryPassword"
+            id="temporaryPassword"
+            placeholder={t("temporaryPasswordPlaceholder")}
+            value={temporaryPassword}
+            onChange={(e) => setTemporaryPassword(e.target.value)}
+          />
           <PasswordInput
             label={t("newPassword")}
             required={true}
-            name="password"
-            id="password"
+            name="newPassword"
+            id="newPassword"
             placeholder={t("newPasswordPlaceholder")}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
           />
           <PasswordInput
             label={t("confirmPassword")}
