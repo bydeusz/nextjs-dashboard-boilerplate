@@ -1,12 +1,11 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/useToast";
 import { Loader2 } from "lucide-react";
 import {
   getAuthMeGetQueryKey,
-  useAuthMeGet,
   useUserUpdate,
 } from "@/generated/api/endpoints";
 import { useQueryClient } from "@tanstack/react-query";
@@ -25,7 +24,7 @@ export function UpdateUser() {
   const router = useRouter();
   const t = useTranslations("forms.user-update");
   const queryClient = useQueryClient();
-  const { user: authUser } = useAuth();
+  const { user: currentUser, isLoading: isAuthLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstname: "",
@@ -34,37 +33,7 @@ export function UpdateUser() {
   });
 
   const { toast } = useToast();
-  const { data: meResponse, isLoading: isMeLoading, isFetching: isMeFetching } =
-    useAuthMeGet();
   const { mutateAsync: updateUserMutation } = useUserUpdate();
-
-  const currentUser = useMemo(() => {
-    if (authUser?.id) {
-      return authUser;
-    }
-
-    const payload = meResponse?.data;
-    const nestedPayload =
-      payload && typeof payload === "object" && "data" in payload
-        ? (payload as { data?: unknown }).data
-        : null;
-
-    const resolvedUser =
-      payload && typeof payload === "object" && "id" in payload
-        ? payload
-        : nestedPayload && typeof nestedPayload === "object" && "id" in nestedPayload
-          ? nestedPayload
-          : null;
-
-    return resolvedUser as
-      | {
-          id: string;
-          name?: string;
-          surname?: string;
-          email?: string;
-        }
-      | null;
-  }, [authUser, meResponse]);
 
   useEffect(() => {
     if (!currentUser) {
@@ -151,7 +120,7 @@ export function UpdateUser() {
     }
   };
 
-  const isResolvingCurrentUser = isMeLoading || isMeFetching || !currentUser?.id;
+  const isResolvingCurrentUser = isAuthLoading || !currentUser?.id;
 
   return (
     <div className="space-y-6">

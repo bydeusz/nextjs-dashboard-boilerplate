@@ -6,10 +6,10 @@ import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import {
   getAuthMeGetQueryKey,
-  useAuthMeGet,
-  useFileUpload,
+  useFileReplace,
 } from "@/generated/api/endpoints";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/providers/AuthProvider";
 
 import {
   Card,
@@ -26,37 +26,37 @@ interface UpdateAvatarProps {
 export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
   const t = useTranslations("forms.user-avatar");
   const queryClient = useQueryClient();
+  const { user: currentUser, isLoading: isAuthLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const { toast } = useToast();
-  const { data: meResponse } = useAuthMeGet();
-  const { mutateAsync: uploadFile } = useFileUpload();
+  const { mutateAsync: replaceFile } = useFileReplace();
 
   useEffect(() => {
-    setAvatarPreview(meResponse?.data?.avatarUrl ?? null);
-  }, [meResponse]);
+    setAvatarPreview(currentUser?.avatarUrl ?? null);
+  }, [currentUser]);
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     // Validate file type
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
       toast({
         variant: "destructive",
         title: t("errorTitle"),
-        description: "Please upload a JPEG, PNG, or GIF file",
+        description: "Please upload a JPEG, PNG, or WEBP file",
       });
       return;
     }
 
-    // Validate file size (3MB = 3 * 1024 * 1024 bytes)
-    if (file.size > 3 * 1024 * 1024) {
+    // Validate file size (5MB = 5 * 1024 * 1024 bytes)
+    if (file.size > 5 * 1024 * 1024) {
       toast({
         variant: "destructive",
         title: t("errorTitle"),
-        description: "File size must be less than 3MB",
+        description: "File size must be less than 5MB",
       });
       return;
     }
@@ -78,15 +78,14 @@ export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
 
       try {
         setIsLoading(true);
-        const me = meResponse?.data;
-        if (!me?.id) {
+        if (!currentUser?.id) {
           throw new Error("Failed to resolve current user id");
         }
 
-        const response = await uploadFile({
+        const response = await replaceFile({
           scope: "user",
-          ownerId: me.id,
-          folder: "avatars",
+          ownerId: currentUser.id,
+          folder: "avatar",
           data: { file },
         });
 
@@ -127,6 +126,8 @@ export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
     img.src = objectUrl;
   };
 
+  const isResolvingCurrentUser = isAuthLoading || !currentUser?.id;
+
   return (
     <Card>
       <CardHeader>
@@ -155,16 +156,18 @@ export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
           <div className="space-y-2">
             <input
               type="file"
-              accept="image/jpeg,image/png,image/gif"
+              accept="image/jpeg,image/png,image/webp"
               onChange={handleAvatarUpload}
               className="hidden"
               id="avatar-upload"
-              disabled={isLoading}
+              disabled={isLoading || isResolvingCurrentUser}
             />
             <label
               htmlFor="avatar-upload"
               className={`text-sm cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md inline-flex items-center ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
+                isLoading || isResolvingCurrentUser
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}>
               {isLoading ? (
                 <>
@@ -176,7 +179,7 @@ export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
               )}
             </label>
             <p className="text-xs text-gray-500">
-              JPEG, PNG, GIF (max 800x800px, max 3MB)
+              JPEG, PNG, WEBP (max 800x800px, max 5MB)
             </p>
           </div>
         </div>
