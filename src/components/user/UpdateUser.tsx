@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/useToast";
@@ -10,6 +10,7 @@ import {
   useUserUpdate,
 } from "@/generated/api/endpoints";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { Button } from "@/components/ui/actions/Button";
 import { InputField } from "@/components/ui/inputs/Input";
@@ -24,6 +25,7 @@ export function UpdateUser() {
   const router = useRouter();
   const t = useTranslations("forms.user-update");
   const queryClient = useQueryClient();
+  const { user: authUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstname: "",
@@ -32,21 +34,57 @@ export function UpdateUser() {
   });
 
   const { toast } = useToast();
-  const { data: meResponse } = useAuthMeGet();
+  const { data: meResponse, isLoading: isMeLoading, isFetching: isMeFetching } =
+    useAuthMeGet();
   const { mutateAsync: updateUserMutation } = useUserUpdate();
 
+  const currentUser = useMemo(() => {
+    if (authUser?.id) {
+      return authUser;
+    }
+
+    const payload = meResponse?.data;
+    const nestedPayload =
+      payload && typeof payload === "object" && "data" in payload
+        ? (payload as { data?: unknown }).data
+        : null;
+
+    const resolvedUser =
+      payload && typeof payload === "object" && "id" in payload
+        ? payload
+        : nestedPayload && typeof nestedPayload === "object" && "id" in nestedPayload
+          ? nestedPayload
+          : null;
+
+    return resolvedUser as
+      | {
+          id: string;
+          name?: string;
+          surname?: string;
+          email?: string;
+        }
+      | null;
+  }, [authUser, meResponse]);
+
   useEffect(() => {
-    const me = meResponse?.data;
-    if (!me) {
+    if (!currentUser) {
       return;
     }
 
-    setFormData({
-      firstname: me.name ?? "",
-      surname: me.surname ?? "",
-      email: me.email ?? "",
+    setFormData((prev) => {
+      const hasUserInput = Boolean(prev.firstname || prev.surname || prev.email);
+
+      if (hasUserInput) {
+        return prev;
+      }
+
+      return {
+        firstname: currentUser.name ?? "",
+        surname: currentUser.surname ?? "",
+        email: currentUser.email ?? "",
+      };
     });
-  }, [meResponse]);
+  }, [currentUser]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -58,17 +96,21 @@ export function UpdateUser() {
 
   const updateUser = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!currentUser?.id) {
+      toast({
+        variant: "destructive",
+        title: t("errorTitle"),
+        description: "Failed to resolve current user id",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const me = meResponse?.data;
-
-      if (!me?.id) {
-        throw new Error("Failed to resolve current user id");
-      }
-
       await updateUserMutation({
-        id: me.id,
+        id: currentUser.id,
         data: {
           name: formData.firstname,
           surname: formData.surname,
@@ -108,6 +150,8 @@ export function UpdateUser() {
       setIsLoading(false);
     }
   };
+
+  const isResolvingCurrentUser = isMeLoading || isMeFetching || !currentUser?.id;
 
   return (
     <div className="space-y-6">
@@ -156,7 +200,7 @@ export function UpdateUser() {
             </div>
 
             <div className="mt-6">
-              <Button variant="default" disabled={isLoading}>
+              <Button variant="default" disabled={isLoading || isResolvingCurrentUser}>
                 {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                 {t("save")}
               </Button>
