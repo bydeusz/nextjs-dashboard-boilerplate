@@ -91,6 +91,12 @@
     "language": {
       "dutch": "Dutch",
       "english": "English"
+    },
+    "organisation": {
+      "loading": "Loading organisations…",
+      "placeholder": "Select organisation",
+      "empty": "No organisations found.",
+      "addOrganisation": "New organisation"
     }
   },
   "forms": {
@@ -152,6 +158,32 @@
       "title": "Delete account",
       "description": "Permanently remove your account and all related data.",
       "deleteButton": "Delete account"
+    },
+    "createOrganisation": {
+      "title": "New organisation",
+      "description": "Create an organisation and add yourself as a member.",
+      "loading": "Loading…",
+      "name": "Organisation name",
+      "namePlaceholder": "Acme Inc.",
+      "address": "Address",
+      "addressPlaceholder": "Street and number",
+      "postalCode": "Postal code",
+      "postalCodePlaceholder": "1234 AB",
+      "city": "City",
+      "cityPlaceholder": "Amsterdam",
+      "kvk": "Chamber of Commerce (KvK)",
+      "kvkPlaceholder": "Optional",
+      "vatNumber": "VAT number",
+      "vatNumberPlaceholder": "Optional",
+      "iban": "IBAN",
+      "ibanPlaceholder": "Optional",
+      "submit": "Create organisation",
+      "submitting": "Creating…",
+      "cancel": "Cancel",
+      "successTitle": "Organisation created",
+      "success": "Your organisation has been created.",
+      "errorTitle": "Could not create organisation",
+      "error": "Something went wrong. Please try again."
     }
   },
   "modals": {

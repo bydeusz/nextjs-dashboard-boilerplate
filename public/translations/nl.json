@@ -91,6 +91,12 @@
     "language": {
       "dutch": "Nederlands",
       "english": "Engels"
+    },
+    "organisation": {
+      "loading": "Organisaties laden…",
+      "placeholder": "Kies organisatie",
+      "empty": "Geen organisaties gevonden.",
+      "addOrganisation": "Nieuwe organisatie"
     }
   },
   "forms": {
@@ -152,6 +158,32 @@
       "title": "Account verwijderen",
       "description": "Verwijder je account en alle bijbehorende gegevens permanent.",
       "deleteButton": "Account verwijderen"
+    },
+    "createOrganisation": {
+      "title": "Nieuwe organisatie",
+      "description": "Maak een organisatie aan; je wordt automatisch lid.",
+      "loading": "Laden…",
+      "name": "Organisatienaam",
+      "namePlaceholder": "Acme B.V.",
+      "address": "Adres",
+      "addressPlaceholder": "Straat en huisnummer",
+      "postalCode": "Postcode",
+      "postalCodePlaceholder": "1234 AB",
+      "city": "Plaats",
+      "cityPlaceholder": "Amsterdam",
+      "kvk": "KvK-nummer",
+      "kvkPlaceholder": "Optioneel",
+      "vatNumber": "BTW-nummer",
+      "vatNumberPlaceholder": "Optioneel",
+      "iban": "IBAN",
+      "ibanPlaceholder": "Optioneel",
+      "submit": "Organisatie aanmaken",
+      "submitting": "Bezig met aanmaken…",
+      "cancel": "Annuleren",
+      "successTitle": "Organisatie aangemaakt",
+      "success": "Je organisatie is aangemaakt.",
+      "errorTitle": "Organisatie aanmaken mislukt",
+      "error": "Er ging iets mis. Probeer het opnieuw."
     }
   },
   "modals": {

@@ -6,7 +6,7 @@ import { X, Menu, Settings, LifeBuoy } from "lucide-react";
 
 import { Brand } from "@/components/ui/labels/Brand";
 import { NavLink } from "@/components/ui/actions/NavLink";
-import { SearchInput } from "@/components/ui/inputs/Search";
+import OrganisationSwitcher from "@/components/ui/actions/OrganisationSwitcher";
 import LanguageSwitcher from "@/components/ui/actions/LanguageSwitcher";
 import LogoutButton from "@/components/ui/actions/LogoutButton";
 
@@ -74,25 +74,18 @@ const DashboardSidebar = ({
         <X className="size-6" />
       </button>
 
-      <div className="flex justify-between mb-6">
+      <div className="flex justify-between mb-3">
         <Brand href="/" />
         <div className="hidden md:block">{thumbnail}</div>
       </div>
 
-      <div className="mb-6">
-        <SearchInput
-          className="bg-gray-100 px-8 py-[9px] border border-gray-200 rounded-md text-xs text-gray-900 focus:border-gray-700"
-          placeholder={t("search")}
-          name="search"
-          id="search"
-          disabled={true}
-          onChange={(e) => {
-            console.log(e.target.value);
-          }}
-        />
+      <div className="mb-4">
+        <OrganisationSwitcher />
       </div>
 
-      <nav className="flex-1 space-y-2">{children}</nav>
+      <nav className="flex-1 space-y-2 border-t border-gray-200 pt-4">
+        {children}
+      </nav>
       <nav className="space-y-2 absolute bottom-0 left-0 w-full p-4 border-t">
         <LanguageSwitcher />
         <NavLink href="/settings">
@@ -119,7 +112,7 @@ const DashboardContent = ({
   toggleSidebar = () => {},
 }: DashboardContentProps) => {
   return (
-    <main className="flex flex-col flex-grow overflow-y-auto bg-slate-50">
+    <main className="flex flex-col grow overflow-y-auto bg-slate-50">
       <button
         onClick={toggleSidebar}
         type="button"

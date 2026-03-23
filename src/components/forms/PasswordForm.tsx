@@ -110,6 +110,7 @@ export default function PasswordForm({ email }: PasswordFormProps) {
             type="email"
             name="email"
             id="email"
+            placeholder={email || ""}
             disabled={true}
             value={email}
             onChange={() => undefined}
