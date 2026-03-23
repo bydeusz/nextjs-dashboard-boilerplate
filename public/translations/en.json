@@ -184,6 +184,40 @@
       "success": "Your organisation has been created.",
       "errorTitle": "Could not create organisation",
       "error": "Something went wrong. Please try again."
+    },
+    "organisation-settings": {
+      "title": "Details",
+      "description": "View and edit the organisation currently selected in the sidebar.",
+      "adminOnlyHint": "Only administrators can edit organisation details and the logo.",
+      "noSelection": "Select an organisation in the sidebar to see its details here.",
+      "loading": "Loading organisation…",
+      "errorLoad": "Could not load organisation.",
+      "logoTitle": "Logo",
+      "logoDescription": "Upload a logo for this organisation. Shown in the organisation switcher.",
+      "logoButton": "Upload logo",
+      "logoHelp": "JPEG, PNG, WEBP or SVG (max 5MB)",
+      "logoInvalidType": "Please upload a JPEG, PNG, WEBP (or SVG) file.",
+      "logoTooLarge": "File size must be less than 5MB.",
+      "name": "Organisation name",
+      "namePlaceholder": "Acme Inc.",
+      "address": "Address",
+      "addressPlaceholder": "Street and number",
+      "postalCode": "Postal code",
+      "postalCodePlaceholder": "1234 AB",
+      "city": "City",
+      "cityPlaceholder": "Amsterdam",
+      "kvk": "Chamber of Commerce (KvK)",
+      "kvkPlaceholder": "Optional",
+      "vatNumber": "VAT number",
+      "vatNumberPlaceholder": "Optional",
+      "iban": "IBAN",
+      "ibanPlaceholder": "Optional",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "successTitle": "Organisation updated",
+      "successMessage": "Your changes have been saved.",
+      "errorTitle": "Update failed",
+      "errorMessage": "Something went wrong. Please try again."
     }
   },
   "modals": {
@@ -247,6 +281,7 @@
       "tabs": {
         "profile": "Profile",
         "account": "Account",
+        "organisations": "Organisations",
         "team": "Team"
       }
     },

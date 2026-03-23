@@ -16,6 +16,8 @@ const STORAGE_KEY = "selectedOrganisationId";
 type OrganisationContextValue = {
   selectedOrganisationId: string | null;
   setSelectedOrganisationId: (id: string | null) => void;
+  /** True after auth finished and stored id was validated (or cleared). Prevents racing with localStorage restore. */
+  selectionSynced: boolean;
 };
 
 const OrganisationContext = createContext<OrganisationContextValue | null>(null);
@@ -48,29 +50,40 @@ function writeStoredId(id: string | null): void {
 }
 
 export function OrganisationProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const [selectedOrganisationId, setSelectedOrganisationIdState] = useState<
     string | null
   >(null);
+  const [selectionSynced, setSelectionSynced] = useState(false);
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+
     if (!user) {
       setSelectedOrganisationIdState(null);
       writeStoredId(null);
+      setSelectionSynced(true);
       return;
     }
 
     const stored = readStoredId();
     if (stored && !user.organisationIds.includes(stored)) {
       writeStoredId(null);
+      setSelectedOrganisationIdState(null);
+      setSelectionSynced(true);
+      return;
     }
     if (stored && user.organisationIds.includes(stored)) {
       setSelectedOrganisationIdState(stored);
+      setSelectionSynced(true);
       return;
     }
 
     setSelectedOrganisationIdState(null);
-  }, [user]);
+    setSelectionSynced(true);
+  }, [user, authLoading]);
 
   const setSelectedOrganisationId = useCallback((id: string | null) => {
     setSelectedOrganisationIdState(id);
@@ -81,8 +94,9 @@ export function OrganisationProvider({ children }: { children: ReactNode }) {
     () => ({
       selectedOrganisationId,
       setSelectedOrganisationId,
+      selectionSynced,
     }),
-    [selectedOrganisationId, setSelectedOrganisationId],
+    [selectedOrganisationId, setSelectedOrganisationId, selectionSynced],
   );
 
   return (

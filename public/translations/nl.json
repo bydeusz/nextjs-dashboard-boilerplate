@@ -184,6 +184,40 @@
       "success": "Je organisatie is aangemaakt.",
       "errorTitle": "Organisatie aanmaken mislukt",
       "error": "Er ging iets mis. Probeer het opnieuw."
+    },
+    "organisation-settings": {
+      "title": "Gegevens",
+      "description": "Bekijk en bewerk de organisatie die je nu in de sidebar hebt geselecteerd.",
+      "adminOnlyHint": "Alleen beheerders kunnen organisatiegegevens en het logo aanpassen.",
+      "noSelection": "Selecteer een organisatie in de sidebar om de gegevens hier te zien.",
+      "loading": "Organisatie laden…",
+      "errorLoad": "Organisatie kon niet worden geladen.",
+      "logoTitle": "Logo",
+      "logoDescription": "Upload een logo voor deze organisatie. Zichtbaar in de organisatieschakelaar.",
+      "logoButton": "Logo uploaden",
+      "logoHelp": "JPEG, PNG, WEBP of SVG (max. 5 MB)",
+      "logoInvalidType": "Upload een JPEG-, PNG-, WEBP- of SVG-bestand.",
+      "logoTooLarge": "Het bestand mag maximaal 5 MB zijn.",
+      "name": "Organisatienaam",
+      "namePlaceholder": "Acme B.V.",
+      "address": "Adres",
+      "addressPlaceholder": "Straat en huisnummer",
+      "postalCode": "Postcode",
+      "postalCodePlaceholder": "1234 AB",
+      "city": "Plaats",
+      "cityPlaceholder": "Amsterdam",
+      "kvk": "KvK-nummer",
+      "kvkPlaceholder": "Optioneel",
+      "vatNumber": "BTW-nummer",
+      "vatNumberPlaceholder": "Optioneel",
+      "iban": "IBAN",
+      "ibanPlaceholder": "Optioneel",
+      "save": "Wijzigingen opslaan",
+      "saving": "Bezig met opslaan…",
+      "successTitle": "Organisatie bijgewerkt",
+      "successMessage": "Je wijzigingen zijn opgeslagen.",
+      "errorTitle": "Bijwerken mislukt",
+      "errorMessage": "Er ging iets mis. Probeer het opnieuw."
     }
   },
   "modals": {
@@ -247,6 +281,7 @@
       "tabs": {
         "profile": "Profiel",
         "account": "Account",
+        "organisations": "Organisaties",
         "team": "Team"
       }
     },

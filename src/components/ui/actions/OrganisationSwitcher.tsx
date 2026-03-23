@@ -6,8 +6,8 @@ import { useTranslations } from "next-intl";
 import { ChevronDown, Plus } from "lucide-react";
 
 import { useOrganisationGetList } from "@/generated/api/endpoints";
-import type { OrganisationResponseDto } from "@/generated/api/model/organisationResponseDto";
 import type { OrganisationGetListParams } from "@/generated/api/model/organisationGetListParams";
+import { extractOrganisationListFromResponse } from "@/helpers/organisation-response";
 import { useAuth } from "@/providers/AuthProvider";
 import { useOrganisation } from "@/providers/OrganisationProvider";
 
@@ -15,24 +15,6 @@ const LIST_PARAMS = {
   page: 1,
   limit: 100,
 } as unknown as OrganisationGetListParams;
-
-function extractOrganisationList(
-  payload: unknown,
-): OrganisationResponseDto[] {
-  if (!payload || typeof payload !== "object") {
-    return [];
-  }
-  const outer = payload as { data?: unknown };
-  const body = outer.data;
-  if (!body || typeof body !== "object") {
-    return [];
-  }
-  const envelope = body as { data?: unknown };
-  if (Array.isArray(envelope.data)) {
-    return envelope.data as OrganisationResponseDto[];
-  }
-  return [];
-}
 
 function OrgThumb({
   name,
@@ -70,7 +52,7 @@ function OrgThumb({
 export default function OrganisationSwitcher() {
   const t = useTranslations("navigation.organisation");
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
-  const { selectedOrganisationId, setSelectedOrganisationId } =
+  const { selectedOrganisationId, setSelectedOrganisationId, selectionSynced } =
     useOrganisation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -85,7 +67,7 @@ export default function OrganisationSwitcher() {
   );
 
   const organisations = useMemo(
-    () => extractOrganisationList(listResponse),
+    () => extractOrganisationListFromResponse(listResponse),
     [listResponse],
   );
 
@@ -96,6 +78,9 @@ export default function OrganisationSwitcher() {
   );
 
   useEffect(() => {
+    if (!selectionSynced) {
+      return;
+    }
     if (!isAuthenticated || authLoading || listLoading) {
       return;
     }
@@ -127,6 +112,7 @@ export default function OrganisationSwitcher() {
     listLoading,
     organisations,
     selectedOrganisationId,
+    selectionSynced,
     setSelectedOrganisationId,
     user?.organisationIds,
   ]);
