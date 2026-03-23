@@ -83,7 +83,6 @@
       "search": "Search...",
       "links": {
         "dashboard": "Dashboard",
-        "websites": "Websites",
         "settings": "Settings",
         "support": "Support"
       }
@@ -96,7 +95,9 @@
       "loading": "Loading organisations…",
       "placeholder": "Select organisation",
       "empty": "No organisations found.",
-      "addOrganisation": "New organisation"
+      "addOrganisation": "New organisation",
+      "editOrganisation": "Edit organisation",
+      "editOrganisationFor": "Edit {name}"
     }
   },
   "forms": {
@@ -284,9 +285,6 @@
         "organisations": "Organisations",
         "team": "Team"
       }
-    },
-    "websites": {
-      "title": "Websites"
     },
     "dashboard": {
       "title": "Dashboard"

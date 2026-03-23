@@ -83,7 +83,6 @@
       "search": "Zoeken...",
       "links": {
         "dashboard": "Dashboard",
-        "websites": "Websites",
         "settings": "Instellingen",
         "support": "Ondersteuning"
       }
@@ -96,7 +95,9 @@
       "loading": "Organisaties laden…",
       "placeholder": "Kies organisatie",
       "empty": "Geen organisaties gevonden.",
-      "addOrganisation": "Nieuwe organisatie"
+      "addOrganisation": "Nieuwe organisatie",
+      "editOrganisation": "Organisatie bewerken",
+      "editOrganisationFor": "{name} bewerken"
     }
   },
   "forms": {

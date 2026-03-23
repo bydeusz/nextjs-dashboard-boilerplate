@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { ChevronDown, Plus } from "lucide-react";
+import { ChevronDown, Pencil, Plus } from "lucide-react";
 
 import { useOrganisationGetList } from "@/generated/api/endpoints";
 import type { OrganisationGetListParams } from "@/generated/api/model/organisationGetListParams";
@@ -185,19 +185,35 @@ export default function OrganisationSwitcher() {
       {isOpen && organisations.length > 0 && (
         <div className="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           {organisations.map((org) => (
-            <button
+            <div
               key={org.id}
-              type="button"
-              onClick={() => {
-                setSelectedOrganisationId(org.id);
-                setIsOpen(false);
-              }}
-              className={`cursor-pointer flex w-full min-w-0 items-center gap-2 px-3 py-2 text-left hover:bg-gray-100 ${
+              className={`flex min-w-0 items-center gap-0.5 pr-1 ${
                 org.id === selectedOrganisationId ? "bg-gray-50" : ""
               }`}>
-              <OrgThumb name={org.name} logoUrl={org.logoUrl} />
-              <span className="min-w-0 flex-1 truncate">{org.name}</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedOrganisationId(org.id);
+                  setIsOpen(false);
+                }}
+                className="cursor-pointer flex min-w-0 flex-1 items-center gap-2 px-3 py-2 text-left hover:bg-gray-100">
+                <OrgThumb name={org.name} logoUrl={org.logoUrl} />
+                <span className="min-w-0 flex-1 truncate">{org.name}</span>
+              </button>
+              {user?.isAdmin ? (
+                <Link
+                  href={`/settings/organisations?org=${encodeURIComponent(org.id)}`}
+                  className="inline-flex shrink-0 rounded-md p-1.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  aria-label={t("editOrganisationFor", { name: org.name })}
+                  title={t("editOrganisationFor", { name: org.name })}
+                  onClick={() => {
+                    setSelectedOrganisationId(org.id);
+                    setIsOpen(false);
+                  }}>
+                  <Pencil className="size-4 shrink-0" aria-hidden />
+                </Link>
+              ) : null}
+            </div>
           ))}
           {user?.isAdmin ? (
             <div className="border-t border-gray-100 p-2">

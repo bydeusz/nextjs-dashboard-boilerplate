@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   getOrganisationGetListQueryKey,
@@ -42,8 +42,21 @@ export function UpdateOrganisation() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const { selectedOrganisationId } = useOrganisation();
+  const searchParams = useSearchParams();
+  const orgFromUrl = searchParams.get("org");
+  const { selectedOrganisationId, setSelectedOrganisationId } =
+    useOrganisation();
   const isAdmin = Boolean(user?.isAdmin);
+
+  useEffect(() => {
+    if (!orgFromUrl || !user) {
+      return;
+    }
+    if (!user.organisationIds.includes(orgFromUrl) && !user.isAdmin) {
+      return;
+    }
+    setSelectedOrganisationId(orgFromUrl);
+  }, [orgFromUrl, user, setSelectedOrganisationId]);
 
   const orgId = selectedOrganisationId ?? "";
 
