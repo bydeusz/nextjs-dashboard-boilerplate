@@ -137,6 +137,27 @@ export default function OrganisationSwitcher() {
 
   const showPlaceholder = listLoading && organisations.length === 0;
 
+  if (!listLoading && organisations.length === 0 && user?.isAdmin) {
+    return (
+      <div className="text-xs">
+        <Link
+          href="/settings/organisations/new"
+          className="flex w-full min-w-0 items-center justify-center gap-2 rounded-md bg-primary px-3 py-2.5 text-center text-white hover:opacity-90">
+          <Plus className="size-4 shrink-0" />
+          <span className="truncate">{t("addOrganisation")}</span>
+        </Link>
+      </div>
+    );
+  }
+
+  if (!listLoading && organisations.length === 0 && !user?.isAdmin) {
+    return (
+      <div className="text-xs rounded-md border border-dashed border-gray-300 px-3 py-2.5 text-center text-gray-500">
+        {t("empty")}
+      </div>
+    );
+  }
+
   return (
     <div className="relative text-xs" ref={dropdownRef}>
       <button
@@ -191,12 +212,6 @@ export default function OrganisationSwitcher() {
           ) : null}
         </div>
       )}
-
-      {isOpen && !listLoading && organisations.length === 0 ? (
-        <div className="absolute z-20 mt-1 w-full rounded-md bg-white p-3 text-center text-gray-500 shadow-lg ring-1 ring-black ring-opacity-5">
-          {t("empty")}
-        </div>
-      ) : null}
     </div>
   );
 }
