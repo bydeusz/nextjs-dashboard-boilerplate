@@ -287,7 +287,11 @@
       }
     },
     "dashboard": {
-      "title": "Dashboard"
+      "title": "Dashboard",
+      "organisationCardTitle": "Organisation",
+      "organisationCardDescription": "Edit the details and logo of the organisation currently selected in the sidebar.",
+      "organisationCardButton": "Organisation settings",
+      "organisationCardBadge": "Settings"
     }
   },
   "common": {

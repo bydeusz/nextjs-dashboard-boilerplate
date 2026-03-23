@@ -287,7 +287,11 @@
       }
     },
     "dashboard": {
-      "title": "Dashboard"
+      "title": "Dashboard",
+      "organisationCardTitle": "Organisatie",
+      "organisationCardDescription": "Pas de gegevens en het logo aan van de organisatie die je in de sidebar hebt geselecteerd.",
+      "organisationCardButton": "Organisatie-instellingen",
+      "organisationCardBadge": "Instellingen"
     }
   },
   "common": {
