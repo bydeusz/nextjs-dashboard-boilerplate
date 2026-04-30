@@ -29,7 +29,6 @@ export function UpdateUser() {
   const [formData, setFormData] = useState({
     firstname: "",
     surname: "",
-    email: "",
   });
 
   const { toast } = useToast();
@@ -41,7 +40,7 @@ export function UpdateUser() {
     }
 
     setFormData((prev) => {
-      const hasUserInput = Boolean(prev.firstname || prev.surname || prev.email);
+      const hasUserInput = Boolean(prev.firstname || prev.surname);
 
       if (hasUserInput) {
         return prev;
@@ -50,7 +49,6 @@ export function UpdateUser() {
       return {
         firstname: currentUser.name ?? "",
         surname: currentUser.surname ?? "",
-        email: currentUser.email ?? "",
       };
     });
   }, [currentUser]);
@@ -83,7 +81,6 @@ export function UpdateUser() {
         data: {
           name: formData.firstname,
           surname: formData.surname,
-          email: formData.email,
         },
       });
 
@@ -156,16 +153,6 @@ export function UpdateUser() {
                   />
                 </div>
               </div>
-
-              <InputField
-                label={t("email")}
-                type="email"
-                name="email"
-                id="email"
-                placeholder={t("emailPlaceholder")}
-                value={formData.email}
-                onChange={handleInputChange}
-              />
             </div>
 
             <div className="mt-6">

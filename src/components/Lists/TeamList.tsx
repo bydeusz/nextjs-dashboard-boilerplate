@@ -5,7 +5,6 @@ import { User } from "@/types/User";
 import { useAuth } from "@/providers/AuthProvider";
 import { useUserGetList } from "@/generated/api/endpoints";
 
-import { AddUser } from "@/components/modals/Add";
 import { SearchInput } from "@/components/ui/inputs/Search";
 import {
   Table,
@@ -61,7 +60,6 @@ export function TeamList() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <AddUser isAdmin={currentUserData?.isAdmin || false} />
       </div>
 
       {isLoading ? (

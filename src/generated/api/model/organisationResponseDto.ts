@@ -8,9 +8,12 @@
 
 export interface OrganisationResponseDto {
   name: string;
-  address: string;
-  postalCode: string;
-  city: string;
+  /** @nullable */
+  address: string | null;
+  /** @nullable */
+  postalCode: string | null;
+  /** @nullable */
+  city: string | null;
   /** @nullable */
   kvk: string | null;
   /** @nullable */

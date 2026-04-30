@@ -9,8 +9,8 @@
 export * from './activateDto';
 export * from './authTokensResponseDto';
 export * from './changePasswordDto';
+export * from './confirmEmailChangeDto';
 export * from './createOrganisationDto';
-export * from './createUserDto';
 export * from './fileGetListParams';
 export * from './fileReplaceBody';
 export * from './fileResponseDto';
@@ -32,6 +32,7 @@ export * from './organisationGetListParams';
 export * from './organisationResponseDto';
 export * from './refreshTokenDto';
 export * from './registerDto';
+export * from './requestEmailChangeDto';
 export * from './requestNewPasswordDto';
 export * from './resendActivationDto';
 export * from './resetPasswordDto';

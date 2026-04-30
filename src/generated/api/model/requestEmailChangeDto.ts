@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface UpdateUserDto {
-  name?: string;
-  surname?: string;
+export interface RequestEmailChangeDto {
+  newEmail: string;
 }

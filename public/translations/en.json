@@ -100,6 +100,13 @@
       "editOrganisationFor": "Edit {name}"
     }
   },
+  "banners": {
+    "noOrganisation": {
+      "title": "Get started",
+      "description": "You are not part of an organisation yet. Create your first one to start using the dashboard.",
+      "cta": "Create organisation"
+    }
+  },
   "forms": {
     "support": {
       "title": "Support",

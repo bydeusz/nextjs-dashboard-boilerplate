@@ -8,9 +8,9 @@
 
 export interface CreateOrganisationDto {
   name: string;
-  address: string;
-  postalCode: string;
-  city: string;
+  address?: string;
+  postalCode?: string;
+  city?: string;
   kvk?: string;
   vatNumber?: string;
   iban?: string;
