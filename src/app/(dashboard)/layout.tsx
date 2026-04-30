@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/layout/Dashboard";
 import { Thumbnail } from "@/components/user/Thumbnail";
 import DashboardLinks from "@/components/navigation/DashboardLinks";
-import { NoOrganisationBanner } from "@/components/banners/NoOrganisationBanner";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,10 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <DashboardLinks />
         </DashboardNavigation>
       </DashboardSidebar>
-      <DashboardContent>
-        <NoOrganisationBanner />
-        {children}
-      </DashboardContent>
+      <DashboardContent>{children}</DashboardContent>
     </Dashboard>
   );
 }

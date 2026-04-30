@@ -46,13 +46,12 @@ export function UpdateOrganisation() {
   const orgFromUrl = searchParams.get("org");
   const { selectedOrganisationId, setSelectedOrganisationId } =
     useOrganisation();
-  const isAdmin = Boolean(user?.isAdmin);
 
   useEffect(() => {
     if (!orgFromUrl || !user) {
       return;
     }
-    if (!user.organisationIds.includes(orgFromUrl) && !user.isAdmin) {
+    if (!user.organisationIds.includes(orgFromUrl)) {
       return;
     }
     setSelectedOrganisationId(orgFromUrl);
@@ -106,7 +105,7 @@ export function UpdateOrganisation() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!organisation?.id || !isAdmin) {
+    if (!organisation?.id) {
       return;
     }
 
@@ -195,7 +194,7 @@ export function UpdateOrganisation() {
     );
   }
 
-  const disabled = !isAdmin;
+  const disabled = false;
 
   return (
     <div className="flex flex-col gap-6">
@@ -203,9 +202,6 @@ export function UpdateOrganisation() {
         <CardHeader>
           <CardTitle>{t("title")}</CardTitle>
           <CardDescription>{t("description")}</CardDescription>
-          {!isAdmin ? (
-            <p className="text-xs text-gray-600 pt-1">{t("adminOnlyHint")}</p>
-          ) : null}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -301,7 +297,7 @@ export function UpdateOrganisation() {
         organisationId={organisation.id}
         name={organisation.name}
         logoUrl={organisation.logoUrl}
-        canEdit={isAdmin}
+        canEdit
       />
     </div>
   );

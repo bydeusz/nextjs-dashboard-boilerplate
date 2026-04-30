@@ -137,7 +137,7 @@ export default function OrganisationSwitcher() {
 
   const showPlaceholder = listLoading && organisations.length === 0;
 
-  if (!listLoading && organisations.length === 0 && user?.isAdmin) {
+  if (!listLoading && organisations.length === 0) {
     return (
       <div className="text-xs">
         <Link
@@ -146,14 +146,6 @@ export default function OrganisationSwitcher() {
           <Plus className="size-4 shrink-0" />
           <span className="truncate">{t("addOrganisation")}</span>
         </Link>
-      </div>
-    );
-  }
-
-  if (!listLoading && organisations.length === 0 && !user?.isAdmin) {
-    return (
-      <div className="text-xs rounded-md border border-dashed border-gray-300 px-3 py-2.5 text-center text-gray-500">
-        {t("empty")}
       </div>
     );
   }
@@ -200,32 +192,28 @@ export default function OrganisationSwitcher() {
                 <OrgThumb name={org.name} logoUrl={org.logoUrl} />
                 <span className="min-w-0 flex-1 truncate">{org.name}</span>
               </button>
-              {user?.isAdmin ? (
-                <Link
-                  href={`/settings/organisations?org=${encodeURIComponent(org.id)}`}
-                  className="inline-flex shrink-0 rounded-md p-1.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                  aria-label={t("editOrganisationFor", { name: org.name })}
-                  title={t("editOrganisationFor", { name: org.name })}
-                  onClick={() => {
-                    setSelectedOrganisationId(org.id);
-                    setIsOpen(false);
-                  }}>
-                  <Pencil className="size-4 shrink-0" aria-hidden />
-                </Link>
-              ) : null}
-            </div>
-          ))}
-          {user?.isAdmin ? (
-            <div className="border-t border-gray-100 p-2">
               <Link
-                href="/settings/organisations/new"
-                className="flex w-full items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-center text-white hover:opacity-90"
-                onClick={() => setIsOpen(false)}>
-                <Plus className="size-4 shrink-0" />
-                {t("addOrganisation")}
+                href={`/settings/organisations?org=${encodeURIComponent(org.id)}`}
+                className="inline-flex shrink-0 rounded-md p-1.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                aria-label={t("editOrganisationFor", { name: org.name })}
+                title={t("editOrganisationFor", { name: org.name })}
+                onClick={() => {
+                  setSelectedOrganisationId(org.id);
+                  setIsOpen(false);
+                }}>
+                <Pencil className="size-4 shrink-0" aria-hidden />
               </Link>
             </div>
-          ) : null}
+          ))}
+          <div className="border-t border-gray-100 p-2">
+            <Link
+              href="/settings/organisations/new"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-center text-white hover:opacity-90"
+              onClick={() => setIsOpen(false)}>
+              <Plus className="size-4 shrink-0" />
+              {t("addOrganisation")}
+            </Link>
+          </div>
         </div>
       )}
     </div>
