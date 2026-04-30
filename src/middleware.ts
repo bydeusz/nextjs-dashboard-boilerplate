@@ -15,7 +15,6 @@ function isProtectedRoute(pathname: string) {
   return (
     pathname === "/" ||
     pathname.startsWith("/settings") ||
-    pathname.startsWith("/websites") ||
     pathname.startsWith("/support")
   );
 }

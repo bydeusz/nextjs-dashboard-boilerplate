@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { Toaster } from "@/providers/ToastProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { OrganisationProvider } from "@/providers/OrganisationProvider";
 
 import "@/assets/styles/globals.css";
 
@@ -27,8 +28,10 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <AuthProvider>
-              {children}
-              <Toaster />
+              <OrganisationProvider>
+                {children}
+                <Toaster />
+              </OrganisationProvider>
             </AuthProvider>
           </QueryProvider>
         </NextIntlClientProvider>

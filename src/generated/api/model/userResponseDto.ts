@@ -10,7 +10,6 @@ export interface UserResponseDto {
   name: string;
   surname: string;
   email: string;
-  isAdmin: boolean;
   isActive: boolean;
   organisationIds: string[];
   /** @nullable */
