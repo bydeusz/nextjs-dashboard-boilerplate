@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 import { useOrganisationGet } from "@/generated/api/endpoints";
 import { extractOrganisationFromResponse } from "@/helpers/organisation-response";
+import { useOrganisationOwnership } from "@/hooks/useOrganisationOwnership";
 import { useAuth } from "@/providers/AuthProvider";
 import { useOrganisation } from "@/providers/OrganisationProvider";
 
@@ -20,6 +21,7 @@ export function UpdateOrganisationBranding() {
   const orgFromUrl = searchParams.get("org");
   const { selectedOrganisationId, setSelectedOrganisationId } =
     useOrganisation();
+  const { isOwner } = useOrganisationOwnership(selectedOrganisationId);
 
   useEffect(() => {
     if (!orgFromUrl || !user) {
@@ -69,7 +71,7 @@ export function UpdateOrganisationBranding() {
       organisationId={organisation.id}
       name={organisation.name}
       logoUrl={organisation.logoUrl}
-      canEdit
+      canEdit={isOwner}
     />
   );
 }

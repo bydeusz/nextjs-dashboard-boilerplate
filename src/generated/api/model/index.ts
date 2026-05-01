@@ -27,6 +27,7 @@ export * from './healthCheck503Info';
 export * from './inviteMemberDto';
 export * from './loginDto';
 export * from './mailContactSupportBody';
+export * from './memberUserDto';
 export * from './messageResponseDto';
 export * from './object';
 export * from './organisationGetList200';

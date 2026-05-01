@@ -5,12 +5,12 @@
  * API documentation for the NestJS boilerplate project.
  * OpenAPI spec version: 1.0
  */
+import type { MemberUserDto } from './memberUserDto';
 import type { OrganisationRole } from './organisationRole';
-import type { UserResponseDto } from './userResponseDto';
 
 export interface OrganisationMemberResponseDto {
   role: OrganisationRole;
-  user: UserResponseDto;
+  user: MemberUserDto;
   userId: string;
   organisationId: string;
   id: string;

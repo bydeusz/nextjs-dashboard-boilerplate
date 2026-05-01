@@ -195,7 +195,7 @@
     "organisation-settings": {
       "title": "Details",
       "description": "View and edit the organisation currently selected in the sidebar.",
-      "adminOnlyHint": "Only administrators can edit organisation details and the logo.",
+      "adminOnlyHint": "Only organisation owners can edit these details.",
       "noSelection": "Select an organisation in the sidebar to see its details here.",
       "loading": "Loading organisation…",
       "errorLoad": "Could not load organisation.",

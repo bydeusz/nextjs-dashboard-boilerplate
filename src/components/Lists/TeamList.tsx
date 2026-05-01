@@ -106,6 +106,7 @@ export function TeamList() {
             id="search"
             placeholder={navT("search")}
             onChange={(e) => setSearchQuery(e.target.value)}
+            className="rounded-md border-0 bg-white py-1.5 px-8 sm:text-sm sm:leading-6 text-gray-900 ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-gray-700"
           />
         </div>
         {isOwner && (
