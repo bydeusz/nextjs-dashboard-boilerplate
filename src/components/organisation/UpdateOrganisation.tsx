@@ -7,12 +7,12 @@ import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import {
-  getOrganisationGetListQueryKey,
   getOrganisationGetQueryKey,
+  getOrganisationListQueryKey,
   useOrganisationGet,
   useOrganisationUpdate,
 } from "@/generated/api/endpoints";
-import type { OrganisationGetListParams } from "@/generated/api/model/organisationGetListParams";
+import type { OrganisationListParams } from "@/generated/api/model/organisationListParams";
 import type { UpdateOrganisationDto } from "@/generated/api/model/updateOrganisationDto";
 import { useOrganisationOwnership } from "@/hooks/useOrganisationOwnership";
 import { useToast } from "@/hooks/useToast";
@@ -34,7 +34,7 @@ import {
 const LIST_PARAMS = {
   page: 1,
   limit: 100,
-} as unknown as OrganisationGetListParams;
+} as unknown as OrganisationListParams;
 
 export function UpdateOrganisation() {
   const t = useTranslations("forms.organisation-settings");
@@ -133,7 +133,7 @@ export function UpdateOrganisation() {
         queryKey: getOrganisationGetQueryKey(organisation.id),
       });
       await queryClient.invalidateQueries({
-        queryKey: getOrganisationGetListQueryKey(LIST_PARAMS),
+        queryKey: getOrganisationListQueryKey(LIST_PARAMS),
       });
       toast({
         title: t("successTitle"),

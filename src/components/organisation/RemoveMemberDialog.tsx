@@ -6,7 +6,7 @@ import { Loader2, Trash2 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import {
-  getOrganisationMemberGetListQueryKey,
+  getOrganisationMemberListQueryKey,
   useOrganisationMemberRemove,
 } from "@/generated/api/endpoints";
 import type { OrganisationMemberResponseDto } from "@/generated/api/model/organisationMemberResponseDto";
@@ -65,7 +65,7 @@ export function RemoveMemberDialog({
     try {
       await removeMember({ id: organisationId, userId: member.userId });
       await queryClient.invalidateQueries({
-        queryKey: getOrganisationMemberGetListQueryKey(organisationId),
+        queryKey: getOrganisationMemberListQueryKey(organisationId),
       });
       setOpen(false);
     } catch (err) {

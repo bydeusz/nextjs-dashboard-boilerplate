@@ -7,7 +7,7 @@
  */
 import type { Object } from './object';
 
-export type UserGetListParams = {
+export type UserListParams = {
 page: Object;
 limit: Object;
 };

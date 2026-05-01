@@ -2,8 +2,8 @@
 
 import { useMemo } from "react";
 
-import { useOrganisationMemberGetList } from "@/generated/api/endpoints";
-import type { OrganisationMemberGetListParams } from "@/generated/api/model/organisationMemberGetListParams";
+import { useOrganisationMemberList } from "@/generated/api/endpoints";
+import type { OrganisationMemberListParams } from "@/generated/api/model/organisationMemberListParams";
 import { OrganisationRole } from "@/generated/api/model/organisationRole";
 import { extractMemberListFromResponse } from "@/helpers/member-response";
 import { useAuth } from "@/providers/AuthProvider";
@@ -11,7 +11,7 @@ import { useAuth } from "@/providers/AuthProvider";
 const LIST_PARAMS = {
   page: 1,
   limit: 100,
-} as unknown as OrganisationMemberGetListParams;
+} as unknown as OrganisationMemberListParams;
 
 type Result = {
   isOwner: boolean;
@@ -34,7 +34,7 @@ export function useOrganisationOwnership(
   const { user } = useAuth();
   const enabled = Boolean(organisationId) && Boolean(user);
 
-  const { data: rawList, isLoading } = useOrganisationMemberGetList(
+  const { data: rawList, isLoading } = useOrganisationMemberList(
     organisationId ?? "",
     LIST_PARAMS,
     { query: { enabled } },

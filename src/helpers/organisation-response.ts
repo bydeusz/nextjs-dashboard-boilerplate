@@ -1,6 +1,6 @@
 import type { OrganisationResponseDto } from "@/generated/api/model/organisationResponseDto";
 
-/** Unwraps list payload from `organisationGetList` / `useOrganisationGetList` (customInstance + API envelope). */
+/** Unwraps list payload from `organisationList` / `useOrganisationList` (customInstance + API envelope). */
 export function extractOrganisationListFromResponse(
   payload: unknown,
 ): OrganisationResponseDto[] {

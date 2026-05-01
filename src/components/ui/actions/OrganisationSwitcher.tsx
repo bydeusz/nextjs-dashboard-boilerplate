@@ -5,8 +5,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown, Plus } from "lucide-react";
 
-import { useOrganisationGetList } from "@/generated/api/endpoints";
-import type { OrganisationGetListParams } from "@/generated/api/model/organisationGetListParams";
+import { useOrganisationList } from "@/generated/api/endpoints";
+import type { OrganisationListParams } from "@/generated/api/model/organisationListParams";
 import { extractOrganisationListFromResponse } from "@/helpers/organisation-response";
 import { useAuth } from "@/providers/AuthProvider";
 import { useOrganisation } from "@/providers/OrganisationProvider";
@@ -14,7 +14,7 @@ import { useOrganisation } from "@/providers/OrganisationProvider";
 const LIST_PARAMS = {
   page: 1,
   limit: 100,
-} as unknown as OrganisationGetListParams;
+} as unknown as OrganisationListParams;
 
 function OrgThumb({
   name,
@@ -57,7 +57,7 @@ export default function OrganisationSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { data: listResponse, isLoading: listLoading } = useOrganisationGetList(
+  const { data: listResponse, isLoading: listLoading } = useOrganisationList(
     LIST_PARAMS,
     {
       query: {

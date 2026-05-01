@@ -7,7 +7,10 @@
  */
 import type { Object } from './object';
 
-export type OrganisationMemberGetListParams = {
+export type FileListParams = {
 page: Object;
 limit: Object;
+scope: Object;
+folder: string;
+mimeType: string;
 };

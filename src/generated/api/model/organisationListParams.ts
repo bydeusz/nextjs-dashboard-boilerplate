@@ -7,7 +7,7 @@
  */
 import type { Object } from './object';
 
-export type OrganisationGetListParams = {
+export type OrganisationListParams = {
 page: Object;
 limit: Object;
 };

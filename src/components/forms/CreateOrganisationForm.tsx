@@ -8,11 +8,11 @@ import { useState } from "react";
 
 import { useToast } from "@/hooks/useToast";
 import {
-  getOrganisationGetListQueryKey,
+  getOrganisationListQueryKey,
   useOrganisationCreate,
 } from "@/generated/api/endpoints";
 import type { CreateOrganisationDto } from "@/generated/api/model/createOrganisationDto";
-import type { OrganisationGetListParams } from "@/generated/api/model/organisationGetListParams";
+import type { OrganisationListParams } from "@/generated/api/model/organisationListParams";
 import type { OrganisationResponseDto } from "@/generated/api/model/organisationResponseDto";
 import { useOrganisation } from "@/providers/OrganisationProvider";
 
@@ -29,7 +29,7 @@ import { Button } from "@/components/ui/actions/Button";
 const LIST_PARAMS = {
   page: 1,
   limit: 100,
-} as unknown as OrganisationGetListParams;
+} as unknown as OrganisationListParams;
 
 function unwrapCreatedOrganisation(
   result: unknown,
@@ -90,7 +90,7 @@ export function CreateOrganisationForm() {
     try {
       const result = await createOrganisation({ data: payload });
       await queryClient.invalidateQueries({
-        queryKey: getOrganisationGetListQueryKey(LIST_PARAMS),
+        queryKey: getOrganisationListQueryKey(LIST_PARAMS),
       });
       const created = unwrapCreatedOrganisation(result);
       if (created?.id) {

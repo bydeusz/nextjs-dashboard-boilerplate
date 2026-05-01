@@ -6,7 +6,7 @@ import { Loader2, ShieldCheck } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import {
-  getOrganisationMemberGetListQueryKey,
+  getOrganisationMemberListQueryKey,
   useOrganisationMemberUpdateRole,
 } from "@/generated/api/endpoints";
 import type { OrganisationMemberResponseDto } from "@/generated/api/model/organisationMemberResponseDto";
@@ -73,7 +73,7 @@ export function ChangeMemberRoleDialog({
         data: { role: nextRole },
       });
       await queryClient.invalidateQueries({
-        queryKey: getOrganisationMemberGetListQueryKey(organisationId),
+        queryKey: getOrganisationMemberListQueryKey(organisationId),
       });
       setOpen(false);
     } catch (err) {

@@ -26,7 +26,7 @@ export function extractMemberListMetaFromResponse(
   return null;
 }
 
-/** Unwraps list payload from `organisationMemberGetList` / `useOrganisationMemberGetList`. */
+/** Unwraps list payload from `organisationMemberList` / `useOrganisationMemberList`. */
 export function extractMemberListFromResponse(
   payload: unknown,
 ): OrganisationMemberResponseDto[] {

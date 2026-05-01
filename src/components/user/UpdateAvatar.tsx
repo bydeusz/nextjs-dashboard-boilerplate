@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import {
-  getAuthMeGetQueryKey,
+  getAuthGetCurrentUserQueryKey,
   useFileReplace,
 } from "@/generated/api/endpoints";
 import { useQueryClient } from "@tanstack/react-query";
@@ -91,7 +91,7 @@ export function UpdateAvatar({ firstname }: UpdateAvatarProps) {
 
         // Update preview with new avatar URL
         setAvatarPreview(response.data.downloadUrl);
-        await queryClient.invalidateQueries({ queryKey: getAuthMeGetQueryKey() });
+        await queryClient.invalidateQueries({ queryKey: getAuthGetCurrentUserQueryKey() });
 
         toast({
           title: t("successTitle"),

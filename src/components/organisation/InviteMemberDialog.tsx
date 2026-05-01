@@ -6,7 +6,7 @@ import { Loader2, UserPlus } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import {
-  getOrganisationMemberGetListQueryKey,
+  getOrganisationMemberListQueryKey,
   useOrganisationMemberInvite,
 } from "@/generated/api/endpoints";
 import type { InviteMemberDto } from "@/generated/api/model/inviteMemberDto";
@@ -78,7 +78,7 @@ export function InviteMemberDialog({ organisationId }: InviteMemberDialogProps) 
     try {
       await inviteMember({ id: organisationId, data: payload });
       await queryClient.invalidateQueries({
-        queryKey: getOrganisationMemberGetListQueryKey(organisationId),
+        queryKey: getOrganisationMemberListQueryKey(organisationId),
       });
       toast({
         variant: "success",

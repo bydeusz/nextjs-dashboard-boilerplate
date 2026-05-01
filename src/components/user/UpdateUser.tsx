@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/useToast";
 import { Loader2 } from "lucide-react";
 import {
-  getAuthMeGetQueryKey,
+  getAuthGetCurrentUserQueryKey,
   useUserUpdate,
 } from "@/generated/api/endpoints";
 import { useQueryClient } from "@tanstack/react-query";
@@ -84,7 +84,7 @@ export function UpdateUser() {
         },
       });
 
-      await queryClient.invalidateQueries({ queryKey: getAuthMeGetQueryKey() });
+      await queryClient.invalidateQueries({ queryKey: getAuthGetCurrentUserQueryKey() });
 
       toast({
         title: t("successTitle"),

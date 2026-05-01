@@ -5,9 +5,9 @@
  * API documentation for the NestJS boilerplate project.
  * OpenAPI spec version: 1.0
  */
-import type { OrganisationMemberResponseDto } from './organisationMemberResponseDto';
+import type { OrganisationResponseDto } from './organisationResponseDto';
 import type { PaginatedResponseDto } from './paginatedResponseDto';
 
-export type OrganisationMemberGetList200 = PaginatedResponseDto & {
-  data?: OrganisationMemberResponseDto[];
+export type OrganisationList200 = PaginatedResponseDto & {
+  data?: OrganisationResponseDto[];
 };

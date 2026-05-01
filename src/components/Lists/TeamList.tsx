@@ -5,8 +5,8 @@ import { useTranslations } from "next-intl";
 
 import { useAuth } from "@/providers/AuthProvider";
 import { useOrganisation } from "@/providers/OrganisationProvider";
-import { useOrganisationMemberGetList } from "@/generated/api/endpoints";
-import type { OrganisationMemberGetListParams } from "@/generated/api/model/organisationMemberGetListParams";
+import { useOrganisationMemberList } from "@/generated/api/endpoints";
+import type { OrganisationMemberListParams } from "@/generated/api/model/organisationMemberListParams";
 import { OrganisationRole } from "@/generated/api/model/organisationRole";
 import {
   extractMemberListFromResponse,
@@ -40,7 +40,7 @@ const MEMBER_PAGE_LIMIT = 100;
 const LIST_PARAMS = {
   page: 1,
   limit: MEMBER_PAGE_LIMIT,
-} as unknown as OrganisationMemberGetListParams;
+} as unknown as OrganisationMemberListParams;
 
 export function TeamList() {
   const { user } = useAuth();
@@ -54,7 +54,7 @@ export function TeamList() {
     data: rawList,
     isLoading,
     isError,
-  } = useOrganisationMemberGetList(selectedOrganisationId ?? "", LIST_PARAMS, {
+  } = useOrganisationMemberList(selectedOrganisationId ?? "", LIST_PARAMS, {
     query: { enabled: Boolean(selectedOrganisationId) },
   });
 

@@ -11,7 +11,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { clearAccessToken, setAccessToken } from "@/lib/auth-tokens";
-import { useAuthMeGet } from "@/generated/api/endpoints";
+import { useAuthGetCurrentUser } from "@/generated/api/endpoints";
 
 type AuthUser = {
   id: string;
@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { refetch: refetchMe } = useAuthMeGet({
+  const { refetch: refetchMe } = useAuthGetCurrentUser({
     query: {
       enabled: false,
       retry: false,

@@ -7,11 +7,11 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import {
-  getOrganisationGetListQueryKey,
   getOrganisationGetQueryKey,
+  getOrganisationListQueryKey,
   useFileReplace,
 } from "@/generated/api/endpoints";
-import type { OrganisationGetListParams } from "@/generated/api/model/organisationGetListParams";
+import type { OrganisationListParams } from "@/generated/api/model/organisationListParams";
 import { useToast } from "@/hooks/useToast";
 
 import {
@@ -25,7 +25,7 @@ import {
 const LIST_PARAMS = {
   page: 1,
   limit: 100,
-} as unknown as OrganisationGetListParams;
+} as unknown as OrganisationListParams;
 
 function downloadUrlFromReplaceResult(result: unknown): string | null {
   if (!result || typeof result !== "object") {
@@ -129,7 +129,7 @@ export function OrganisationLogoUpload({
         queryKey: getOrganisationGetQueryKey(organisationId),
       });
       await queryClient.invalidateQueries({
-        queryKey: getOrganisationGetListQueryKey(LIST_PARAMS),
+        queryKey: getOrganisationListQueryKey(LIST_PARAMS),
       });
 
       router.refresh();

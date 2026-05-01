@@ -30,7 +30,7 @@ import type {
   ChangePasswordDto,
   ConfirmEmailChangeDto,
   CreateOrganisationDto,
-  FileGetListParams,
+  FileListParams,
   FileReplaceBody,
   FileResponseDto,
   FileUploadBody,
@@ -41,10 +41,10 @@ import type {
   LoginDto,
   MailContactSupportBody,
   MessageResponseDto,
-  OrganisationGetList200,
-  OrganisationGetListParams,
-  OrganisationMemberGetList200,
-  OrganisationMemberGetListParams,
+  OrganisationList200,
+  OrganisationListParams,
+  OrganisationMemberList200,
+  OrganisationMemberListParams,
   OrganisationMemberResponseDto,
   OrganisationResponseDto,
   RefreshTokenDto,
@@ -56,8 +56,8 @@ import type {
   UpdateMemberRoleDto,
   UpdateOrganisationDto,
   UpdateUserDto,
-  UserGetList200,
-  UserGetListParams,
+  UserList200,
+  UserListParams,
   UserResponseDto
 } from './model';
 
@@ -65,111 +65,6 @@ import { customInstance } from '../../lib/axios';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
-
-export type appGetResponse200 = {
-  data: string
-  status: 200
-}
-
-export type appGetResponseSuccess = (appGetResponse200) & {
-  headers: Headers;
-};
-;
-
-export type appGetResponse = (appGetResponseSuccess)
-
-export const getAppGetUrl = () => {
-
-
-  
-
-  return `/api`
-}
-
-export const appGet = async ( options?: RequestInit): Promise<appGetResponse> => {
-  
-  return customInstance<appGetResponse>(getAppGetUrl(),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-);}
-  
-
-
-
-
-export const getAppGetQueryKey = () => {
-    return [
-    `/api`
-    ] as const;
-    }
-
-    
-export const getAppGetQueryOptions = <TData = Awaited<ReturnType<typeof appGet>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getAppGetQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof appGet>>> = ({ signal }) => appGet({ signal, ...requestOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof appGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type AppGetQueryResult = NonNullable<Awaited<ReturnType<typeof appGet>>>
-export type AppGetQueryError = unknown
-
-
-export function useAppGet<TData = Awaited<ReturnType<typeof appGet>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof appGet>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof appGet>>,
-          TError,
-          Awaited<ReturnType<typeof appGet>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAppGet<TData = Awaited<ReturnType<typeof appGet>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appGet>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof appGet>>,
-          TError,
-          Awaited<ReturnType<typeof appGet>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAppGet<TData = Awaited<ReturnType<typeof appGet>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useAppGet<TData = Awaited<ReturnType<typeof appGet>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getAppGetQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
 
 
 
@@ -866,19 +761,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(getAuthChangePasswordMutationOptions(options), queryClient);
     }
     
-export type authMeGetResponse200 = {
+export type authGetCurrentUserResponse200 = {
   data: UserResponseDto
   status: 200
 }
 
-export type authMeGetResponseSuccess = (authMeGetResponse200) & {
+export type authGetCurrentUserResponseSuccess = (authGetCurrentUserResponse200) & {
   headers: Headers;
 };
 ;
 
-export type authMeGetResponse = (authMeGetResponseSuccess)
+export type authGetCurrentUserResponse = (authGetCurrentUserResponseSuccess)
 
-export const getAuthMeGetUrl = () => {
+export const getAuthGetCurrentUserUrl = () => {
 
 
   
@@ -886,9 +781,9 @@ export const getAuthMeGetUrl = () => {
   return `/api/v1/auth/me`
 }
 
-export const authMeGet = async ( options?: RequestInit): Promise<authMeGetResponse> => {
+export const authGetCurrentUser = async ( options?: RequestInit): Promise<authGetCurrentUserResponse> => {
   
-  return customInstance<authMeGetResponse>(getAuthMeGetUrl(),
+  return customInstance<authGetCurrentUserResponse>(getAuthGetCurrentUserUrl(),
   {      
     ...options,
     method: 'GET'
@@ -901,66 +796,66 @@ export const authMeGet = async ( options?: RequestInit): Promise<authMeGetRespon
 
 
 
-export const getAuthMeGetQueryKey = () => {
+export const getAuthGetCurrentUserQueryKey = () => {
     return [
     `/api/v1/auth/me`
     ] as const;
     }
 
     
-export const getAuthMeGetQueryOptions = <TData = Awaited<ReturnType<typeof authMeGet>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authMeGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getAuthGetCurrentUserQueryOptions = <TData = Awaited<ReturnType<typeof authGetCurrentUser>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authGetCurrentUser>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getAuthMeGetQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getAuthGetCurrentUserQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof authMeGet>>> = ({ signal }) => authMeGet({ signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof authGetCurrentUser>>> = ({ signal }) => authGetCurrentUser({ signal, ...requestOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof authMeGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof authGetCurrentUser>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type AuthMeGetQueryResult = NonNullable<Awaited<ReturnType<typeof authMeGet>>>
-export type AuthMeGetQueryError = unknown
+export type AuthGetCurrentUserQueryResult = NonNullable<Awaited<ReturnType<typeof authGetCurrentUser>>>
+export type AuthGetCurrentUserQueryError = unknown
 
 
-export function useAuthMeGet<TData = Awaited<ReturnType<typeof authMeGet>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof authMeGet>>, TError, TData>> & Pick<
+export function useAuthGetCurrentUser<TData = Awaited<ReturnType<typeof authGetCurrentUser>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof authGetCurrentUser>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof authMeGet>>,
+          Awaited<ReturnType<typeof authGetCurrentUser>>,
           TError,
-          Awaited<ReturnType<typeof authMeGet>>
+          Awaited<ReturnType<typeof authGetCurrentUser>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAuthMeGet<TData = Awaited<ReturnType<typeof authMeGet>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authMeGet>>, TError, TData>> & Pick<
+export function useAuthGetCurrentUser<TData = Awaited<ReturnType<typeof authGetCurrentUser>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authGetCurrentUser>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof authMeGet>>,
+          Awaited<ReturnType<typeof authGetCurrentUser>>,
           TError,
-          Awaited<ReturnType<typeof authMeGet>>
+          Awaited<ReturnType<typeof authGetCurrentUser>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useAuthMeGet<TData = Awaited<ReturnType<typeof authMeGet>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authMeGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useAuthGetCurrentUser<TData = Awaited<ReturnType<typeof authGetCurrentUser>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authGetCurrentUser>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useAuthMeGet<TData = Awaited<ReturnType<typeof authMeGet>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authMeGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useAuthGetCurrentUser<TData = Awaited<ReturnType<typeof authGetCurrentUser>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authGetCurrentUser>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getAuthMeGetQueryOptions(options)
+  const queryOptions = getAuthGetCurrentUserQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -1125,19 +1020,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(getAuthConfirmEmailChangeMutationOptions(options), queryClient);
     }
     
-export type userGetListResponse200 = {
-  data: UserGetList200
+export type userListResponse200 = {
+  data: UserList200
   status: 200
 }
 
-export type userGetListResponseSuccess = (userGetListResponse200) & {
+export type userListResponseSuccess = (userListResponse200) & {
   headers: Headers;
 };
 ;
 
-export type userGetListResponse = (userGetListResponseSuccess)
+export type userListResponse = (userListResponseSuccess)
 
-export const getUserGetListUrl = (params: UserGetListParams,) => {
+export const getUserListUrl = (params: UserListParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -1152,9 +1047,9 @@ export const getUserGetListUrl = (params: UserGetListParams,) => {
   return stringifiedParams.length > 0 ? `/api/v1/users?${stringifiedParams}` : `/api/v1/users`
 }
 
-export const userGetList = async (params: UserGetListParams, options?: RequestInit): Promise<userGetListResponse> => {
+export const userList = async (params: UserListParams, options?: RequestInit): Promise<userListResponse> => {
   
-  return customInstance<userGetListResponse>(getUserGetListUrl(params),
+  return customInstance<userListResponse>(getUserListUrl(params),
   {      
     ...options,
     method: 'GET'
@@ -1167,66 +1062,66 @@ export const userGetList = async (params: UserGetListParams, options?: RequestIn
 
 
 
-export const getUserGetListQueryKey = (params?: UserGetListParams,) => {
+export const getUserListQueryKey = (params?: UserListParams,) => {
     return [
     `/api/v1/users`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getUserGetListQueryOptions = <TData = Awaited<ReturnType<typeof userGetList>>, TError = unknown>(params: UserGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getUserListQueryOptions = <TData = Awaited<ReturnType<typeof userList>>, TError = unknown>(params: UserListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getUserGetListQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getUserListQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof userGetList>>> = ({ signal }) => userGetList(params, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof userList>>> = ({ signal }) => userList(params, { signal, ...requestOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof userGetList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof userList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type UserGetListQueryResult = NonNullable<Awaited<ReturnType<typeof userGetList>>>
-export type UserGetListQueryError = unknown
+export type UserListQueryResult = NonNullable<Awaited<ReturnType<typeof userList>>>
+export type UserListQueryError = unknown
 
 
-export function useUserGetList<TData = Awaited<ReturnType<typeof userGetList>>, TError = unknown>(
- params: UserGetListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userGetList>>, TError, TData>> & Pick<
+export function useUserList<TData = Awaited<ReturnType<typeof userList>>, TError = unknown>(
+ params: UserListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof userList>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof userGetList>>,
+          Awaited<ReturnType<typeof userList>>,
           TError,
-          Awaited<ReturnType<typeof userGetList>>
+          Awaited<ReturnType<typeof userList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useUserGetList<TData = Awaited<ReturnType<typeof userGetList>>, TError = unknown>(
- params: UserGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userGetList>>, TError, TData>> & Pick<
+export function useUserList<TData = Awaited<ReturnType<typeof userList>>, TError = unknown>(
+ params: UserListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userList>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof userGetList>>,
+          Awaited<ReturnType<typeof userList>>,
           TError,
-          Awaited<ReturnType<typeof userGetList>>
+          Awaited<ReturnType<typeof userList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useUserGetList<TData = Awaited<ReturnType<typeof userGetList>>, TError = unknown>(
- params: UserGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useUserList<TData = Awaited<ReturnType<typeof userList>>, TError = unknown>(
+ params: UserListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useUserGetList<TData = Awaited<ReturnType<typeof userGetList>>, TError = unknown>(
- params: UserGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useUserList<TData = Awaited<ReturnType<typeof userList>>, TError = unknown>(
+ params: UserListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getUserGetListQueryOptions(params,options)
+  const queryOptions = getUserListQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -1573,19 +1468,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(getOrganisationCreateMutationOptions(options), queryClient);
     }
     
-export type organisationGetListResponse200 = {
-  data: OrganisationGetList200
+export type organisationListResponse200 = {
+  data: OrganisationList200
   status: 200
 }
 
-export type organisationGetListResponseSuccess = (organisationGetListResponse200) & {
+export type organisationListResponseSuccess = (organisationListResponse200) & {
   headers: Headers;
 };
 ;
 
-export type organisationGetListResponse = (organisationGetListResponseSuccess)
+export type organisationListResponse = (organisationListResponseSuccess)
 
-export const getOrganisationGetListUrl = (params: OrganisationGetListParams,) => {
+export const getOrganisationListUrl = (params: OrganisationListParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -1600,9 +1495,9 @@ export const getOrganisationGetListUrl = (params: OrganisationGetListParams,) =>
   return stringifiedParams.length > 0 ? `/api/v1/organisations?${stringifiedParams}` : `/api/v1/organisations`
 }
 
-export const organisationGetList = async (params: OrganisationGetListParams, options?: RequestInit): Promise<organisationGetListResponse> => {
+export const organisationList = async (params: OrganisationListParams, options?: RequestInit): Promise<organisationListResponse> => {
   
-  return customInstance<organisationGetListResponse>(getOrganisationGetListUrl(params),
+  return customInstance<organisationListResponse>(getOrganisationListUrl(params),
   {      
     ...options,
     method: 'GET'
@@ -1615,66 +1510,66 @@ export const organisationGetList = async (params: OrganisationGetListParams, opt
 
 
 
-export const getOrganisationGetListQueryKey = (params?: OrganisationGetListParams,) => {
+export const getOrganisationListQueryKey = (params?: OrganisationListParams,) => {
     return [
     `/api/v1/organisations`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getOrganisationGetListQueryOptions = <TData = Awaited<ReturnType<typeof organisationGetList>>, TError = unknown>(params: OrganisationGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getOrganisationListQueryOptions = <TData = Awaited<ReturnType<typeof organisationList>>, TError = unknown>(params: OrganisationListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getOrganisationGetListQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getOrganisationListQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof organisationGetList>>> = ({ signal }) => organisationGetList(params, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof organisationList>>> = ({ signal }) => organisationList(params, { signal, ...requestOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organisationGetList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organisationList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type OrganisationGetListQueryResult = NonNullable<Awaited<ReturnType<typeof organisationGetList>>>
-export type OrganisationGetListQueryError = unknown
+export type OrganisationListQueryResult = NonNullable<Awaited<ReturnType<typeof organisationList>>>
+export type OrganisationListQueryError = unknown
 
 
-export function useOrganisationGetList<TData = Awaited<ReturnType<typeof organisationGetList>>, TError = unknown>(
- params: OrganisationGetListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationGetList>>, TError, TData>> & Pick<
+export function useOrganisationList<TData = Awaited<ReturnType<typeof organisationList>>, TError = unknown>(
+ params: OrganisationListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationList>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof organisationGetList>>,
+          Awaited<ReturnType<typeof organisationList>>,
           TError,
-          Awaited<ReturnType<typeof organisationGetList>>
+          Awaited<ReturnType<typeof organisationList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOrganisationGetList<TData = Awaited<ReturnType<typeof organisationGetList>>, TError = unknown>(
- params: OrganisationGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationGetList>>, TError, TData>> & Pick<
+export function useOrganisationList<TData = Awaited<ReturnType<typeof organisationList>>, TError = unknown>(
+ params: OrganisationListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationList>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof organisationGetList>>,
+          Awaited<ReturnType<typeof organisationList>>,
           TError,
-          Awaited<ReturnType<typeof organisationGetList>>
+          Awaited<ReturnType<typeof organisationList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOrganisationGetList<TData = Awaited<ReturnType<typeof organisationGetList>>, TError = unknown>(
- params: OrganisationGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useOrganisationList<TData = Awaited<ReturnType<typeof organisationList>>, TError = unknown>(
+ params: OrganisationListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useOrganisationGetList<TData = Awaited<ReturnType<typeof organisationGetList>>, TError = unknown>(
- params: OrganisationGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useOrganisationList<TData = Awaited<ReturnType<typeof organisationList>>, TError = unknown>(
+ params: OrganisationListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getOrganisationGetListQueryOptions(params,options)
+  const queryOptions = getOrganisationListQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -1944,20 +1839,20 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(getOrganisationDeleteMutationOptions(options), queryClient);
     }
     
-export type organisationMemberGetListResponse200 = {
-  data: OrganisationMemberGetList200
+export type organisationMemberListResponse200 = {
+  data: OrganisationMemberList200
   status: 200
 }
 
-export type organisationMemberGetListResponseSuccess = (organisationMemberGetListResponse200) & {
+export type organisationMemberListResponseSuccess = (organisationMemberListResponse200) & {
   headers: Headers;
 };
 ;
 
-export type organisationMemberGetListResponse = (organisationMemberGetListResponseSuccess)
+export type organisationMemberListResponse = (organisationMemberListResponseSuccess)
 
-export const getOrganisationMemberGetListUrl = (id: string,
-    params: OrganisationMemberGetListParams,) => {
+export const getOrganisationMemberListUrl = (id: string,
+    params: OrganisationMemberListParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -1972,10 +1867,10 @@ export const getOrganisationMemberGetListUrl = (id: string,
   return stringifiedParams.length > 0 ? `/api/v1/organisations/${id}/members?${stringifiedParams}` : `/api/v1/organisations/${id}/members`
 }
 
-export const organisationMemberGetList = async (id: string,
-    params: OrganisationMemberGetListParams, options?: RequestInit): Promise<organisationMemberGetListResponse> => {
+export const organisationMemberList = async (id: string,
+    params: OrganisationMemberListParams, options?: RequestInit): Promise<organisationMemberListResponse> => {
   
-  return customInstance<organisationMemberGetListResponse>(getOrganisationMemberGetListUrl(id,params),
+  return customInstance<organisationMemberListResponse>(getOrganisationMemberListUrl(id,params),
   {      
     ...options,
     method: 'GET'
@@ -1988,72 +1883,72 @@ export const organisationMemberGetList = async (id: string,
 
 
 
-export const getOrganisationMemberGetListQueryKey = (id: string,
-    params?: OrganisationMemberGetListParams,) => {
+export const getOrganisationMemberListQueryKey = (id: string,
+    params?: OrganisationMemberListParams,) => {
     return [
     `/api/v1/organisations/${id}/members`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getOrganisationMemberGetListQueryOptions = <TData = Awaited<ReturnType<typeof organisationMemberGetList>>, TError = unknown>(id: string,
-    params: OrganisationMemberGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getOrganisationMemberListQueryOptions = <TData = Awaited<ReturnType<typeof organisationMemberList>>, TError = unknown>(id: string,
+    params: OrganisationMemberListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getOrganisationMemberGetListQueryKey(id,params);
+  const queryKey =  queryOptions?.queryKey ?? getOrganisationMemberListQueryKey(id,params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof organisationMemberGetList>>> = ({ signal }) => organisationMemberGetList(id,params, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof organisationMemberList>>> = ({ signal }) => organisationMemberList(id,params, { signal, ...requestOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organisationMemberGetList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organisationMemberList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type OrganisationMemberGetListQueryResult = NonNullable<Awaited<ReturnType<typeof organisationMemberGetList>>>
-export type OrganisationMemberGetListQueryError = unknown
+export type OrganisationMemberListQueryResult = NonNullable<Awaited<ReturnType<typeof organisationMemberList>>>
+export type OrganisationMemberListQueryError = unknown
 
 
-export function useOrganisationMemberGetList<TData = Awaited<ReturnType<typeof organisationMemberGetList>>, TError = unknown>(
+export function useOrganisationMemberList<TData = Awaited<ReturnType<typeof organisationMemberList>>, TError = unknown>(
  id: string,
-    params: OrganisationMemberGetListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberGetList>>, TError, TData>> & Pick<
+    params: OrganisationMemberListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberList>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof organisationMemberGetList>>,
+          Awaited<ReturnType<typeof organisationMemberList>>,
           TError,
-          Awaited<ReturnType<typeof organisationMemberGetList>>
+          Awaited<ReturnType<typeof organisationMemberList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOrganisationMemberGetList<TData = Awaited<ReturnType<typeof organisationMemberGetList>>, TError = unknown>(
+export function useOrganisationMemberList<TData = Awaited<ReturnType<typeof organisationMemberList>>, TError = unknown>(
  id: string,
-    params: OrganisationMemberGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberGetList>>, TError, TData>> & Pick<
+    params: OrganisationMemberListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberList>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof organisationMemberGetList>>,
+          Awaited<ReturnType<typeof organisationMemberList>>,
           TError,
-          Awaited<ReturnType<typeof organisationMemberGetList>>
+          Awaited<ReturnType<typeof organisationMemberList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOrganisationMemberGetList<TData = Awaited<ReturnType<typeof organisationMemberGetList>>, TError = unknown>(
+export function useOrganisationMemberList<TData = Awaited<ReturnType<typeof organisationMemberList>>, TError = unknown>(
  id: string,
-    params: OrganisationMemberGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+    params: OrganisationMemberListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useOrganisationMemberGetList<TData = Awaited<ReturnType<typeof organisationMemberGetList>>, TError = unknown>(
+export function useOrganisationMemberList<TData = Awaited<ReturnType<typeof organisationMemberList>>, TError = unknown>(
  id: string,
-    params: OrganisationMemberGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+    params: OrganisationMemberListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organisationMemberList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getOrganisationMemberGetListQueryOptions(id,params,options)
+  const queryOptions = getOrganisationMemberListQueryOptions(id,params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -2477,19 +2372,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(getFileReplaceMutationOptions(options), queryClient);
     }
     
-export type fileGetListResponse200 = {
+export type fileListResponse200 = {
   data: void
   status: 200
 }
 
-export type fileGetListResponseSuccess = (fileGetListResponse200) & {
+export type fileListResponseSuccess = (fileListResponse200) & {
   headers: Headers;
 };
 ;
 
-export type fileGetListResponse = (fileGetListResponseSuccess)
+export type fileListResponse = (fileListResponseSuccess)
 
-export const getFileGetListUrl = (params: FileGetListParams,) => {
+export const getFileListUrl = (params: FileListParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -2504,9 +2399,9 @@ export const getFileGetListUrl = (params: FileGetListParams,) => {
   return stringifiedParams.length > 0 ? `/api/v1/files?${stringifiedParams}` : `/api/v1/files`
 }
 
-export const fileGetList = async (params: FileGetListParams, options?: RequestInit): Promise<fileGetListResponse> => {
+export const fileList = async (params: FileListParams, options?: RequestInit): Promise<fileListResponse> => {
   
-  return customInstance<fileGetListResponse>(getFileGetListUrl(params),
+  return customInstance<fileListResponse>(getFileListUrl(params),
   {      
     ...options,
     method: 'GET'
@@ -2519,66 +2414,66 @@ export const fileGetList = async (params: FileGetListParams, options?: RequestIn
 
 
 
-export const getFileGetListQueryKey = (params?: FileGetListParams,) => {
+export const getFileListQueryKey = (params?: FileListParams,) => {
     return [
     `/api/v1/files`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getFileGetListQueryOptions = <TData = Awaited<ReturnType<typeof fileGetList>>, TError = unknown>(params: FileGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getFileListQueryOptions = <TData = Awaited<ReturnType<typeof fileList>>, TError = unknown>(params: FileListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getFileGetListQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getFileListQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof fileGetList>>> = ({ signal }) => fileGetList(params, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof fileList>>> = ({ signal }) => fileList(params, { signal, ...requestOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof fileGetList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof fileList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type FileGetListQueryResult = NonNullable<Awaited<ReturnType<typeof fileGetList>>>
-export type FileGetListQueryError = unknown
+export type FileListQueryResult = NonNullable<Awaited<ReturnType<typeof fileList>>>
+export type FileListQueryError = unknown
 
 
-export function useFileGetList<TData = Awaited<ReturnType<typeof fileGetList>>, TError = unknown>(
- params: FileGetListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileGetList>>, TError, TData>> & Pick<
+export function useFileList<TData = Awaited<ReturnType<typeof fileList>>, TError = unknown>(
+ params: FileListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileList>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof fileGetList>>,
+          Awaited<ReturnType<typeof fileList>>,
           TError,
-          Awaited<ReturnType<typeof fileGetList>>
+          Awaited<ReturnType<typeof fileList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFileGetList<TData = Awaited<ReturnType<typeof fileGetList>>, TError = unknown>(
- params: FileGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileGetList>>, TError, TData>> & Pick<
+export function useFileList<TData = Awaited<ReturnType<typeof fileList>>, TError = unknown>(
+ params: FileListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileList>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof fileGetList>>,
+          Awaited<ReturnType<typeof fileList>>,
           TError,
-          Awaited<ReturnType<typeof fileGetList>>
+          Awaited<ReturnType<typeof fileList>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFileGetList<TData = Awaited<ReturnType<typeof fileGetList>>, TError = unknown>(
- params: FileGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useFileList<TData = Awaited<ReturnType<typeof fileList>>, TError = unknown>(
+ params: FileListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useFileGetList<TData = Awaited<ReturnType<typeof fileGetList>>, TError = unknown>(
- params: FileGetListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileGetList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useFileList<TData = Awaited<ReturnType<typeof fileList>>, TError = unknown>(
+ params: FileListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fileList>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getFileGetListQueryOptions(params,options)
+  const queryOptions = getFileListQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
