@@ -156,7 +156,7 @@ export default function OrganisationSwitcher() {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         disabled={listLoading && organisations.length === 0}
-        className="cursor-pointer flex w-full min-w-0 items-center gap-2 rounded-md border-0 py-2.5 pl-3 pr-10 text-left text-gray-900 ring-1 ring-inset ring-gray-300 hover:ring-2 hover:ring-primary disabled:cursor-wait disabled:opacity-70">
+        className="cursor-pointer flex w-full min-w-0 items-center gap-2 rounded-md border-0 py-2.5 pl-3 pr-10 text-left text-gray-900 ring-1 ring-inset ring-gray-300 hover:ring-1 hover:ring-gray-400 disabled:cursor-wait disabled:opacity-70">
         {showPlaceholder ? (
           <span className="truncate text-gray-500">{t("loading")}</span>
         ) : selected ? (
@@ -175,7 +175,7 @@ export default function OrganisationSwitcher() {
       </button>
 
       {isOpen && organisations.length > 0 && (
-        <div className="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+        <div className="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-md bg-white shadow-lg ring-1 ring-gray-300 ring-opacity-5">
           {organisations.map((org) => (
             <button
               key={org.id}
