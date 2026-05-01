@@ -228,46 +228,59 @@
     }
   },
   "modals": {
-    "add": {
-      "button": "Add user",
-      "title": "Add team member",
-      "desc": "Invite a new team member by filling in the details below.",
-      "firstname": "First name",
-      "firstnamePlaceholder": "John",
-      "surname": "Last name",
-      "surnamePlaceholder": "Doe",
-      "email": "Email address",
-      "emailPlaceholder": "john@doe.com",
-      "errorTitle": "Could not add team member"
-    },
     "delete": {
-      "title": "Delete user",
-      "desc": "This action cannot be undone.",
-      "label": "Type DELETE to confirm deletion of",
-      "placeholder": "Type DELETE",
-      "button": "Delete",
+      "title": "Delete account",
+      "desc": "This action cannot be undone. Your account will be permanently deleted.",
+      "label": "Type your full name to confirm deletion of",
+      "placeholder": "Full name",
+      "button": "Delete account",
       "error": {
-        "title": "Could not delete user"
+        "title": "Could not delete account"
       }
     },
-    "admin": {
+    "inviteMember": {
+      "button": "Invite member",
+      "title": "Invite team member",
+      "desc": "Add an existing user by email, or create a new user by also filling in their name.",
+      "email": "Email address",
+      "emailPlaceholder": "name@example.com",
+      "firstname": "First name",
+      "firstnamePlaceholder": "Required for new users",
+      "surname": "Last name",
+      "surnamePlaceholder": "Required for new users",
+      "role": "Role",
+      "roleOwner": "Owner",
+      "roleMember": "Member",
+      "submit": "Send invite",
+      "submitting": "Sending...",
+      "successTitle": "Member invited",
+      "successDescription": "The new member has been added to the organisation.",
+      "errorTitle": "Could not invite member"
+    },
+    "removeMember": {
+      "title": "Remove member",
+      "desc": "This person will lose access to this organisation.",
+      "label": "Type the full name to confirm removing",
+      "placeholder": "Full name",
+      "button": "Remove member",
+      "errorTitle": "Could not remove member"
+    },
+    "changeRole": {
+      "promote": {
+        "title": "Make organisation owner",
+        "desc": "This member will gain full control of the organisation.",
+        "label": "Type the full name to confirm promoting",
+        "placeholder": "Full name",
+        "button": "Promote to owner"
+      },
       "demote": {
-        "title": "Remove admin rights",
-        "desc": "This user will lose administrator permissions.",
-        "label": "Type DEMOTE to confirm changes for",
-        "placeholder": "Type DEMOTE",
+        "title": "Demote to member",
+        "desc": "This owner will become a regular member.",
+        "label": "Type the full name to confirm demoting",
+        "placeholder": "Full name",
         "button": "Demote"
       },
-      "promote": {
-        "title": "Grant admin rights",
-        "desc": "This user will gain administrator permissions.",
-        "label": "Type PROMOTE to confirm changes for",
-        "placeholder": "Type PROMOTE",
-        "button": "Promote"
-      },
-      "error": {
-        "title": "Could not update user role"
-      }
+      "errorTitle": "Could not update role"
     }
   },
   "tables": {
@@ -277,8 +290,14 @@
       "role": "Role",
       "status": "Status",
       "settings": "Settings",
-      "admin": "Admin",
-      "pending": "Pending"
+      "owner": "Owner",
+      "member": "Member",
+      "active": "Active",
+      "pending": "Pending",
+      "empty": "No members yet.",
+      "selectOrgFirst": "Select an organisation to view its members.",
+      "loadError": "Could not load team members.",
+      "truncationHint": "Showing {shown} of {total} members."
     }
   },
   "pages": {

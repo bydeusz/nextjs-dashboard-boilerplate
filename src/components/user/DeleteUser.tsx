@@ -1,9 +1,20 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Loader2, Trash2 } from "lucide-react";
+
 import { useAuth } from "@/providers/AuthProvider";
+import { useUserDelete } from "@/generated/api/endpoints";
+import { extractErrorMessage } from "@/helpers/api-error";
 
-import { User } from "@/types/User";
-
+import { Button } from "@/components/ui/actions/Button";
+import { InputField } from "@/components/ui/inputs/Input";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/messages/Alert";
 import {
   Card,
   CardContent,
@@ -11,40 +22,103 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/layout/Card";
-import { DeleteUser as Delete } from "@/components/modals/Delete";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/messages/Dialog";
 import { Skeleton } from "@/components/ui/layout/Skeleton";
 
 export function DeleteUser() {
-  const t = useTranslations("forms.user-delete");
-  const { user, isLoading } = useAuth();
+  const formT = useTranslations("forms.user-delete");
+  const modalT = useTranslations("modals.delete");
+  const { user, isLoading: isAuthLoading, logout } = useAuth();
+  const { mutateAsync: deleteUser } = useUserDelete();
 
-  const modalUser: User | null = user
-    ? {
-        id: user.id,
-        email: user.email,
-        firstname: user.name,
-        surname: user.surname,
-        isAdmin: user.isAdmin,
-        role: null,
-        password: null,
-        createdAt: new Date(user.createdAt),
-        updatedAt: new Date(user.updatedAt),
-        emailVerified: null,
-        avatar: user.avatarUrl,
-      }
-    : null;
+  const fullName = user ? `${user.name} ${user.surname}`.trim() : "";
+
+  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) {
+      setInputValue("");
+      setError(null);
+    }
+  }, [open]);
+
+  const isConfirmed = inputValue.trim() === fullName;
+
+  const handleDelete = async () => {
+    if (!user) return;
+    setIsLoading(true);
+    setError(null);
+    try {
+      await deleteUser({ id: user.id });
+      setOpen(false);
+      await logout();
+    } catch (err) {
+      setError(extractErrorMessage(err) ?? modalT("error.title"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
-        <CardDescription>{t("description")}</CardDescription>
+        <CardTitle>{formT("title")}</CardTitle>
+        <CardDescription>{formT("description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
+        {isAuthLoading ? (
           <Skeleton className="h-[36px] w-[190px]" />
-        ) : modalUser ? (
-          <Delete user={modalUser} buttonText={t("deleteButton")} />
+        ) : user ? (
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button variant="destructive">
+                <Trash2 className="mr-2 size-4" /> {formT("deleteButton")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{modalT("title")}</DialogTitle>
+                <DialogDescription>{modalT("desc")}</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <InputField
+                  name="confirmName"
+                  id="confirmName"
+                  type="text"
+                  label={`${modalT("label")} "${fullName}"`}
+                  placeholder={modalT("placeholder")}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+                {error && (
+                  <Alert variant="destructive">
+                    <AlertTitle>{modalT("error.title")}</AlertTitle>
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
+                <Button
+                  type="button"
+                  variant="destructive"
+                  disabled={!isConfirmed || isLoading}
+                  onClick={handleDelete}>
+                  {isLoading && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  {modalT("button")}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         ) : null}
       </CardContent>
     </Card>
