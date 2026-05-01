@@ -83,6 +83,7 @@
       "search": "Zoeken...",
       "links": {
         "dashboard": "Dashboard",
+        "organisation": "Organisatie",
         "settings": "Instellingen",
         "support": "Ondersteuning"
       }
@@ -95,9 +96,7 @@
       "loading": "Organisaties laden…",
       "placeholder": "Kies organisatie",
       "empty": "Geen organisaties gevonden.",
-      "addOrganisation": "Nieuwe organisatie",
-      "editOrganisation": "Organisatie bewerken",
-      "editOrganisationFor": "{name} bewerken"
+      "addOrganisation": "Nieuwe organisatie"
     }
   },
   "banners": {
@@ -185,7 +184,7 @@
       "vatNumberPlaceholder": "Optioneel",
       "iban": "IBAN",
       "ibanPlaceholder": "Optioneel",
-      "submit": "Organisatie aanmaken",
+      "submit": "Aanmaken",
       "submitting": "Bezig met aanmaken…",
       "cancel": "Annuleren",
       "successTitle": "Organisatie aangemaakt",
@@ -285,20 +284,23 @@
   "pages": {
     "settings": {
       "title": "Instellingen",
-      "description": "Beheer je account- en teamvoorkeuren.",
+      "description": "Beheer je accountvoorkeuren."
+    },
+    "organisation": {
+      "title": "Organisatie",
+      "description": "Beheer de gegevens en teamleden van je organisatie.",
       "tabs": {
-        "profile": "Profiel",
-        "account": "Account",
-        "organisations": "Organisaties",
+        "details": "Organisatie",
+        "branding": "Huisstijl",
         "team": "Team"
       }
     },
     "dashboard": {
       "title": "Dashboard",
       "organisationCardTitle": "Organisatie",
-      "organisationCardDescription": "Pas de gegevens en het logo aan van de organisatie die je in de sidebar hebt geselecteerd.",
-      "organisationCardButton": "Organisatie-instellingen",
-      "organisationCardBadge": "Instellingen"
+      "organisationCardDescription": "Beheer hier je organisatie. Pas de gegevens, huisstijl en teamgenoten aan.",
+      "organisationCardButton": "Openen",
+      "organisationCardBadge": "Organisatie"
     }
   },
   "common": {

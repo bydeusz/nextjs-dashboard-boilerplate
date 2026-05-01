@@ -20,6 +20,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useOrganisation } from "@/providers/OrganisationProvider";
 
 import { Button } from "@/components/ui/actions/Button";
+import { CreateOrganisationForm } from "@/components/forms/CreateOrganisationForm";
 import { InputField } from "@/components/ui/inputs/Input";
 import {
   Card,
@@ -28,8 +29,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/layout/Card";
-
-import { OrganisationLogoUpload } from "./OrganisationLogoUpload";
 
 const LIST_PARAMS = {
   page: 1,
@@ -168,14 +167,7 @@ export function UpdateOrganisation() {
   };
 
   if (!selectedOrganisationId) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("noSelection")}</CardDescription>
-        </CardHeader>
-      </Card>
-    );
+    return <CreateOrganisationForm />;
   }
 
   if (isLoading) {
@@ -197,108 +189,99 @@ export function UpdateOrganisation() {
   const disabled = false;
 
   return (
-    <div className="flex flex-col gap-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <InputField
+            label={t("name")}
+            type="text"
+            name="name"
+            id="org-settings-name"
+            placeholder={t("namePlaceholder")}
+            value={formData.name}
+            onChange={handleChange}
+            disabled={disabled}
+          />
+          <InputField
+            label={t("address")}
+            type="text"
+            name="address"
+            id="org-settings-address"
+            placeholder={t("addressPlaceholder")}
+            value={formData.address}
+            onChange={handleChange}
+            disabled={disabled}
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
             <InputField
-              label={t("name")}
+              label={t("postalCode")}
               type="text"
-              name="name"
-              id="org-settings-name"
-              placeholder={t("namePlaceholder")}
-              value={formData.name}
+              name="postalCode"
+              id="org-settings-postal"
+              placeholder={t("postalCodePlaceholder")}
+              value={formData.postalCode}
               onChange={handleChange}
               disabled={disabled}
             />
             <InputField
-              label={t("address")}
+              label={t("city")}
               type="text"
-              name="address"
-              id="org-settings-address"
-              placeholder={t("addressPlaceholder")}
-              value={formData.address}
+              name="city"
+              id="org-settings-city"
+              placeholder={t("cityPlaceholder")}
+              value={formData.city}
               onChange={handleChange}
               disabled={disabled}
             />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <InputField
-                label={t("postalCode")}
-                type="text"
-                name="postalCode"
-                id="org-settings-postal"
-                placeholder={t("postalCodePlaceholder")}
-                value={formData.postalCode}
-                onChange={handleChange}
-                disabled={disabled}
-              />
-              <InputField
-                label={t("city")}
-                type="text"
-                name="city"
-                id="org-settings-city"
-                placeholder={t("cityPlaceholder")}
-                value={formData.city}
-                onChange={handleChange}
-                disabled={disabled}
-              />
-            </div>
-            <InputField
-              label={t("kvk")}
-              type="text"
-              name="kvk"
-              id="org-settings-kvk"
-              placeholder={t("kvkPlaceholder")}
-              value={formData.kvk}
-              onChange={handleChange}
-              disabled={disabled}
-            />
-            <InputField
-              label={t("vatNumber")}
-              type="text"
-              name="vatNumber"
-              id="org-settings-vat"
-              placeholder={t("vatNumberPlaceholder")}
-              value={formData.vatNumber}
-              onChange={handleChange}
-              disabled={disabled}
-            />
-            <InputField
-              label={t("iban")}
-              type="text"
-              name="iban"
-              id="org-settings-iban"
-              placeholder={t("ibanPlaceholder")}
-              value={formData.iban}
-              onChange={handleChange}
-              disabled={disabled}
-            />
-            <div className="pt-2">
-              <Button type="submit" disabled={disabled || isSaving}>
-                {isSaving ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("saving")}
-                  </>
-                ) : (
-                  t("save")
-                )}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-
-      <OrganisationLogoUpload
-        organisationId={organisation.id}
-        name={organisation.name}
-        logoUrl={organisation.logoUrl}
-        canEdit
-      />
-    </div>
+          </div>
+          <InputField
+            label={t("kvk")}
+            type="text"
+            name="kvk"
+            id="org-settings-kvk"
+            placeholder={t("kvkPlaceholder")}
+            value={formData.kvk}
+            onChange={handleChange}
+            disabled={disabled}
+          />
+          <InputField
+            label={t("vatNumber")}
+            type="text"
+            name="vatNumber"
+            id="org-settings-vat"
+            placeholder={t("vatNumberPlaceholder")}
+            value={formData.vatNumber}
+            onChange={handleChange}
+            disabled={disabled}
+          />
+          <InputField
+            label={t("iban")}
+            type="text"
+            name="iban"
+            id="org-settings-iban"
+            placeholder={t("ibanPlaceholder")}
+            value={formData.iban}
+            onChange={handleChange}
+            disabled={disabled}
+          />
+          <div className="pt-2">
+            <Button type="submit" disabled={disabled || isSaving}>
+              {isSaving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t("saving")}
+                </>
+              ) : (
+                t("save")
+              )}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

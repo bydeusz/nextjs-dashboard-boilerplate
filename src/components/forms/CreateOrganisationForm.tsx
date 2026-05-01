@@ -101,7 +101,7 @@ export function CreateOrganisationForm() {
         description: t("success"),
         variant: "success",
       });
-      router.push("/settings");
+      router.push("/organisation");
       router.refresh();
     } catch {
       toast({
@@ -203,7 +203,7 @@ export function CreateOrganisationForm() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push("/settings")}
+              onClick={() => router.push("/organisation")}
               disabled={isPending}>
               {t("cancel")}
             </Button>

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 
 import LinkedCard from "@/components/cards/LinkedCard";
 import { Header } from "@/components/ui/layout/Header";
-import { NoOrganisationBanner } from "@/components/banners/NoOrganisationBanner";
 
 export const metadata: Metadata = {
   title: "Dashboard - Next JS Dashboard Boilerplate by @bydeusz.com",
@@ -15,13 +14,12 @@ export default async function DashboardPage() {
   return (
     <div className="p-4 md:p-12 space-y-6">
       <Header border={true} title={t("title")} />
-      <NoOrganisationBanner />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <LinkedCard
           title={t("organisationCardTitle")}
           description={t("organisationCardDescription")}
           button={t("organisationCardButton")}
-          href="/settings/organisations"
+          href="/organisation"
           badge={t("organisationCardBadge")}
         />
       </div>

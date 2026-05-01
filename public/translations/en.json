@@ -83,6 +83,7 @@
       "search": "Search...",
       "links": {
         "dashboard": "Dashboard",
+        "organisation": "Organisation",
         "settings": "Settings",
         "support": "Support"
       }
@@ -95,9 +96,7 @@
       "loading": "Loading organisations…",
       "placeholder": "Select organisation",
       "empty": "No organisations found.",
-      "addOrganisation": "New organisation",
-      "editOrganisation": "Edit organisation",
-      "editOrganisationFor": "Edit {name}"
+      "addOrganisation": "New organisation"
     }
   },
   "banners": {
@@ -185,7 +184,7 @@
       "vatNumberPlaceholder": "Optional",
       "iban": "IBAN",
       "ibanPlaceholder": "Optional",
-      "submit": "Create organisation",
+      "submit": "Create",
       "submitting": "Creating…",
       "cancel": "Cancel",
       "successTitle": "Organisation created",
@@ -285,20 +284,23 @@
   "pages": {
     "settings": {
       "title": "Settings",
-      "description": "Manage your account and team preferences.",
+      "description": "Manage your account preferences."
+    },
+    "organisation": {
+      "title": "Organisation",
+      "description": "Manage your organisation's details and team members.",
       "tabs": {
-        "profile": "Profile",
-        "account": "Account",
-        "organisations": "Organisations",
+        "details": "Organisation",
+        "branding": "Branding",
         "team": "Team"
       }
     },
     "dashboard": {
       "title": "Dashboard",
       "organisationCardTitle": "Organisation",
-      "organisationCardDescription": "Edit the details and logo of the organisation currently selected in the sidebar.",
-      "organisationCardButton": "Organisation settings",
-      "organisationCardBadge": "Settings"
+      "organisationCardDescription": "Manage your organisation here. Update details, branding, and team members.",
+      "organisationCardButton": "Open",
+      "organisationCardBadge": "Organisation"
     }
   },
   "common": {
