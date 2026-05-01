@@ -64,7 +64,7 @@ export default function LanguageSwitcher() {
     <div className="relative text-xs" ref={dropdownRef}>
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 cursor-pointer rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 hover:ring-2 hover:ring-primary">
+        className="flex items-center gap-2 cursor-pointer rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 hover:ring-1 hover:ring-gray-400">
         <span className={"fi fi-" + selectedLanguage?.flag}></span>
         <span>{selectedLanguage?.label}</span>
         <span className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -77,7 +77,7 @@ export default function LanguageSwitcher() {
       </div>
 
       {isOpen && (
-        <div className="absolute mt-1 w-full rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 max-h-28 overflow-y-auto">
+        <div className="absolute mt-1 w-full rounded-md bg-white shadow-lg ring-1 ring-gray-300 ring-opacity-5 max-h-28 overflow-y-auto">
           {languages.map((language) => (
             <div
               key={language.code}

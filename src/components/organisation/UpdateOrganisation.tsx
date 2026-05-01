@@ -14,6 +14,7 @@ import {
 } from "@/generated/api/endpoints";
 import type { OrganisationGetListParams } from "@/generated/api/model/organisationGetListParams";
 import type { UpdateOrganisationDto } from "@/generated/api/model/updateOrganisationDto";
+import { useOrganisationOwnership } from "@/hooks/useOrganisationOwnership";
 import { useToast } from "@/hooks/useToast";
 import { extractOrganisationFromResponse } from "@/helpers/organisation-response";
 import { useAuth } from "@/providers/AuthProvider";
@@ -45,6 +46,7 @@ export function UpdateOrganisation() {
   const orgFromUrl = searchParams.get("org");
   const { selectedOrganisationId, setSelectedOrganisationId } =
     useOrganisation();
+  const { isOwner } = useOrganisationOwnership(selectedOrganisationId);
 
   useEffect(() => {
     if (!orgFromUrl || !user) {
@@ -186,7 +188,7 @@ export function UpdateOrganisation() {
     );
   }
 
-  const disabled = false;
+  const disabled = !isOwner;
 
   return (
     <Card>
@@ -195,6 +197,9 @@ export function UpdateOrganisation() {
         <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
+        {disabled && (
+          <p className="mb-4 text-xs text-gray-600">{t("adminOnlyHint")}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <InputField
             label={t("name")}

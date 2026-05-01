@@ -195,7 +195,7 @@
     "organisation-settings": {
       "title": "Gegevens",
       "description": "Bekijk en bewerk de organisatie die je nu in de sidebar hebt geselecteerd.",
-      "adminOnlyHint": "Alleen beheerders kunnen organisatiegegevens en het logo aanpassen.",
+      "adminOnlyHint": "Alleen organisatie-eigenaren kunnen deze gegevens aanpassen.",
       "noSelection": "Selecteer een organisatie in de sidebar om de gegevens hier te zien.",
       "loading": "Organisatie laden…",
       "errorLoad": "Organisatie kon niet worden geladen.",
@@ -228,46 +228,59 @@
     }
   },
   "modals": {
-    "add": {
-      "button": "Gebruiker toevoegen",
-      "title": "Teamlid toevoegen",
-      "desc": "Nodig een nieuw teamlid uit door onderstaande gegevens in te vullen.",
-      "firstname": "Voornaam",
-      "firstnamePlaceholder": "John",
-      "surname": "Achternaam",
-      "surnamePlaceholder": "Doe",
-      "email": "E-mailadres",
-      "emailPlaceholder": "John@voorbeeld.nl",
-      "errorTitle": "Teamlid toevoegen mislukt"
-    },
     "delete": {
-      "title": "Gebruiker verwijderen",
-      "desc": "Deze actie kan niet ongedaan worden gemaakt.",
-      "label": "Typ DELETE om het verwijderen te bevestigen van",
-      "placeholder": "Typ DELETE",
-      "button": "Verwijderen",
+      "title": "Account verwijderen",
+      "desc": "Deze actie kan niet ongedaan worden gemaakt. Je account wordt permanent verwijderd.",
+      "label": "Typ je volledige naam om verwijderen te bevestigen van",
+      "placeholder": "Volledige naam",
+      "button": "Account verwijderen",
       "error": {
-        "title": "Gebruiker verwijderen mislukt"
+        "title": "Account verwijderen mislukt"
       }
     },
-    "admin": {
+    "inviteMember": {
+      "button": "Lid uitnodigen",
+      "title": "Teamlid uitnodigen",
+      "desc": "Voeg een bestaande gebruiker toe via e-mail, of maak een nieuwe gebruiker aan door ook de naam in te vullen.",
+      "email": "E-mailadres",
+      "emailPlaceholder": "naam@voorbeeld.nl",
+      "firstname": "Voornaam",
+      "firstnamePlaceholder": "Verplicht voor nieuwe gebruikers",
+      "surname": "Achternaam",
+      "surnamePlaceholder": "Verplicht voor nieuwe gebruikers",
+      "role": "Rol",
+      "roleOwner": "Eigenaar",
+      "roleMember": "Lid",
+      "submit": "Uitnodiging versturen",
+      "submitting": "Versturen...",
+      "successTitle": "Lid uitgenodigd",
+      "successDescription": "Het nieuwe lid is toegevoegd aan de organisatie.",
+      "errorTitle": "Lid uitnodigen mislukt"
+    },
+    "removeMember": {
+      "title": "Lid verwijderen",
+      "desc": "Deze persoon verliest toegang tot deze organisatie.",
+      "label": "Typ de volledige naam om verwijderen te bevestigen van",
+      "placeholder": "Volledige naam",
+      "button": "Lid verwijderen",
+      "errorTitle": "Lid verwijderen mislukt"
+    },
+    "changeRole": {
+      "promote": {
+        "title": "Organisatie-eigenaar maken",
+        "desc": "Dit lid krijgt volledige controle over de organisatie.",
+        "label": "Typ de volledige naam om promoveren te bevestigen van",
+        "placeholder": "Volledige naam",
+        "button": "Promoveren tot eigenaar"
+      },
       "demote": {
-        "title": "Adminrechten intrekken",
-        "desc": "Deze gebruiker verliest beheerdersrechten.",
-        "label": "Typ DEMOTE om de wijziging te bevestigen voor",
-        "placeholder": "Typ DEMOTE",
+        "title": "Degraderen naar lid",
+        "desc": "Deze eigenaar wordt een gewoon lid.",
+        "label": "Typ de volledige naam om degraderen te bevestigen van",
+        "placeholder": "Volledige naam",
         "button": "Degraderen"
       },
-      "promote": {
-        "title": "Adminrechten toekennen",
-        "desc": "Deze gebruiker krijgt beheerdersrechten.",
-        "label": "Typ PROMOTE om de wijziging te bevestigen voor",
-        "placeholder": "Typ PROMOTE",
-        "button": "Promoveren"
-      },
-      "error": {
-        "title": "Gebruikersrol bijwerken mislukt"
-      }
+      "errorTitle": "Rol bijwerken mislukt"
     }
   },
   "tables": {
@@ -277,8 +290,14 @@
       "role": "Rol",
       "status": "Status",
       "settings": "Instellingen",
-      "admin": "Admin",
-      "pending": "In afwachting"
+      "owner": "Eigenaar",
+      "member": "Lid",
+      "active": "Actief",
+      "pending": "In afwachting",
+      "empty": "Nog geen leden.",
+      "selectOrgFirst": "Selecteer een organisatie om de leden te bekijken.",
+      "loadError": "Kon teamleden niet laden.",
+      "truncationHint": "{shown} van {total} leden weergegeven."
     }
   },
   "pages": {
